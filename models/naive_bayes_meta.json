@@ -1,0 +1,48 @@
+{
+  "chosen_params": {
+    "alpha": 1.0,
+    "n_bins": 5,
+    "bin_scheme": "quantile"
+  },
+  "cv_metrics": {
+    "params": {
+      "alpha": 1.0,
+      "n_bins": 5,
+      "bin_scheme": "quantile"
+    },
+    "pr_auc_mean": 0.996167,
+    "pr_auc_std": 0.001819,
+    "pr_auc_se": 0.000814,
+    "roc_auc_mean": 0.999617,
+    "roc_auc_std": 0.00013,
+    "brier_score_mean": 0.001736,
+    "brier_score_std": 0.000176,
+    "f1_mean": 0.994148,
+    "f1_std": 0.000519,
+    "expected_cost_1k_mean": 9.81,
+    "expected_cost_1k_std": 0.87,
+    "fit_time_sec": 9.592,
+    "simplicity_score": 15.0
+  },
+  "features_used": [
+    "father_exact",
+    "dob_exact",
+    "dob_day_equal",
+    "dob_month_equal",
+    "dob_one_digit_edit",
+    "dob_diff_days_log",
+    "nid_hamming_le_1",
+    "nid_levenshtein",
+    "phone_last7_equal",
+    "phone_edit_distance",
+    "city_equal",
+    "address_token_jaccard",
+    "blood_group_equal",
+    "visit_count_diff_log",
+    "gower_similarity"
+  ],
+  "preprocessing": "SupervisedEntropyDiscretizer(n_bins=5)",
+  "training_date": "2026-10-27T01:55:18.489265",
+  "random_seed": 42,
+  "data_hash": "661c9cefde87a4a469a05a9d62728c1b102069b31cd3092cc5b24d8ff841269d"
+}

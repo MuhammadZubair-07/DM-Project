@@ -1,0 +1,522 @@
+{
+  "total_records": 54373,
+  "total_fault_types_detected": 24,
+  "faults": [
+    {
+      "fault_code": "F1.1",
+      "category": "Duplicate",
+      "fault_name": "Exact duplicate rows (ignoring record_id)",
+      "affected_columns": [
+        "source_system",
+        "registration_date",
+        "first_name",
+        "family_name",
+        "father_name",
+        "gender",
+        "date_of_birth",
+        "age_years",
+        "national_id",
+        "phone",
+        "city",
+        "address",
+        "blood_group",
+        "insurance_tier",
+        "visit_count"
+      ],
+      "detecting_expression": "df.duplicated(subset=[col for col in df.columns if col != 'record_id'], keep='first')",
+      "count": 0,
+      "percentage": 0.0,
+      "proposed_action": "drop",
+      "reason": "True duplicates with identical attributes provide zero additional information and distort model training."
+    },
+    {
+      "fault_code": "F2.1",
+      "category": "Inconsistent encoding",
+      "fault_name": "Non-canonical city names / aliases (LHR, lahore, etc.)",
+      "affected_columns": [
+        "city"
+      ],
+      "detecting_expression": "(df['city'] != '') & (~df['city'].isin(CANONICAL_CITIES))",
+      "count": 2324,
+      "percentage": 4.27,
+      "proposed_action": "correct",
+      "reason": "Standardize aliases (LHR -> Lahore) using canonical city dictionary to prevent false mismatches."
+    },
+    {
+      "fault_code": "F2.2",
+      "category": "Inconsistent encoding",
+      "fault_name": "Dirty gender encodings (male, female, 1, 2, Ml, Fm)",
+      "affected_columns": [
+        "gender"
+      ],
+      "detecting_expression": "(df['gender'] != '') & (~df['gender'].isin(['M', 'F']))",
+      "count": 1410,
+      "percentage": 2.59,
+      "proposed_action": "correct",
+      "reason": "Map dirty codes to canonical {M, F} to enable symmetric binary agreement matching."
+    },
+    {
+      "fault_code": "F2.3",
+      "category": "Inconsistent encoding",
+      "fault_name": "Non-ISO date of birth formats (DD/MM/YYYY, DD-MM-YYYY)",
+      "affected_columns": [
+        "date_of_birth"
+      ],
+      "detecting_expression": "(df['date_of_birth'] != '') & (~df['date_of_birth'].str.match(r'^\\d{4}-\\d{2}-\\d{2}$'))",
+      "count": 17932,
+      "percentage": 32.98,
+      "proposed_action": "correct",
+      "reason": "Parse and reformat dates to ISO 8601 (YYYY-MM-DD) for uniform datetime parsing."
+    },
+    {
+      "fault_code": "F2.4",
+      "category": "Inconsistent encoding",
+      "fault_name": "Non-standard phone format (dashes, spaces, +92 country code)",
+      "affected_columns": [
+        "phone"
+      ],
+      "detecting_expression": "(df['phone'] != '') & (~df['phone'].isin(SENTINEL_PHONES)) & (~df['phone'].str.match(r'^03\\d{9}$'))",
+      "count": 1642,
+      "percentage": 3.02,
+      "proposed_action": "correct",
+      "reason": "Strip non-digits, replace +92 with 0, and format as uniform 11-digit mobile strings (03xxxxxxxxx)."
+    },
+    {
+      "fault_code": "F2.5",
+      "category": "Inconsistent encoding",
+      "fault_name": "Name casing and whitespace noise (extra spaces, lowercase)",
+      "affected_columns": [
+        "first_name",
+        "family_name"
+      ],
+      "detecting_expression": "df['first_name'].str.contains(r'^\\s|\\s$|\\s{2,}') | ~df['first_name'].str.istitle()",
+      "count": 2213,
+      "percentage": 4.07,
+      "proposed_action": "correct",
+      "reason": "Strip leading/trailing whitespace, collapse internal spaces, and apply Title Case."
+    },
+    {
+      "fault_code": "F3.1",
+      "category": "Sentinel value",
+      "fault_name": "Sentinel date of birth (1900-01-01 legacy default)",
+      "affected_columns": [
+        "date_of_birth"
+      ],
+      "detecting_expression": "df['date_of_birth'].isin(SENTINEL_DATES)",
+      "count": 394,
+      "percentage": 0.72,
+      "proposed_action": "flag",
+      "reason": "Replace sentinel with NaN and create boolean flag 'dob_sentinel_flag' to prevent artificial age calculations."
+    },
+    {
+      "fault_code": "F3.2",
+      "category": "Sentinel value",
+      "fault_name": "Sentinel age values (-999, -1, 999, 199)",
+      "affected_columns": [
+        "age_years"
+      ],
+      "detecting_expression": "df['age_years'].isin(['-999', '-1', '999', '199'])",
+      "count": 300,
+      "percentage": 0.55,
+      "proposed_action": "flag",
+      "reason": "Replace sentinel with NaN, impute from registration_date - DOB if valid, and add provenance flag."
+    },
+    {
+      "fault_code": "F3.3",
+      "category": "Sentinel value",
+      "fault_name": "Sentinel phone numbers (00000000000, 11111111111, etc.)",
+      "affected_columns": [
+        "phone"
+      ],
+      "detecting_expression": "df['phone'].isin(SENTINEL_PHONES)",
+      "count": 183,
+      "percentage": 0.34,
+      "proposed_action": "flag",
+      "reason": "Replace with NaN to avoid false-positive blocking and matching on dummy phone numbers."
+    },
+    {
+      "fault_code": "F3.4",
+      "category": "Sentinel value",
+      "fault_name": "Sentinel visit counts (-999, -1)",
+      "affected_columns": [
+        "visit_count"
+      ],
+      "detecting_expression": "df['visit_count'].isin(['-999', '-1'])",
+      "count": 218,
+      "percentage": 0.4,
+      "proposed_action": "flag",
+      "reason": "Replace with NaN or median encounter count with sentinel provenance flag."
+    },
+    {
+      "fault_code": "F4.1",
+      "category": "Invalid value",
+      "fault_name": "Impossible birth date occurring after registration date",
+      "affected_columns": [
+        "date_of_birth",
+        "registration_date"
+      ],
+      "detecting_expression": "(pd.to_datetime(df['date_of_birth']) > pd.to_datetime(df['registration_date']))",
+      "count": 3446,
+      "percentage": 6.34,
+      "proposed_action": "flag",
+      "reason": "Flag invalid temporal sequence; attempt day-month swap inversion or set DOB to missing with flag."
+    },
+    {
+      "fault_code": "F4.2",
+      "category": "Invalid value",
+      "fault_name": "Impossible age values outside lifespan (>110 or <0, non-sentinel)",
+      "affected_columns": [
+        "age_years"
+      ],
+      "detecting_expression": "(pd.to_numeric(df['age_years']) < 0) | (pd.to_numeric(df['age_years']) > 110)",
+      "count": 181,
+      "percentage": 0.33,
+      "proposed_action": "correct",
+      "reason": "Recompute age from registration_date and date_of_birth if DOB is valid; otherwise set missing."
+    },
+    {
+      "fault_code": "F4.3",
+      "category": "Invalid value",
+      "fault_name": "Age inconsistent with date of birth (|calc_age - age_years| > 2 years)",
+      "affected_columns": [
+        "age_years",
+        "date_of_birth"
+      ],
+      "detecting_expression": "abs(df['age_years'] - (df['registration_date'] - df['date_of_birth'])/365.25) > 2.0",
+      "count": 2352,
+      "percentage": 4.33,
+      "proposed_action": "investigate",
+      "reason": "Reconcile discrepancy using registration date and DOB, flagging the repaired field."
+    },
+    {
+      "fault_code": "F4.4",
+      "category": "Invalid value",
+      "fault_name": "Malformed national ID (length != 13 or non-digit characters)",
+      "affected_columns": [
+        "national_id"
+      ],
+      "detecting_expression": "(df['national_id'] != '') & (~df['national_id'].str.match(r'^\\d{13}$'))",
+      "count": 0,
+      "percentage": 0.0,
+      "proposed_action": "flag",
+      "reason": "Strip punctuation; if length is not exactly 13 digits, set to missing with a malformed flag."
+    },
+    {
+      "fault_code": "F5.father_name",
+      "category": "Missing value",
+      "fault_name": "Omitted / blank attribute (father_name)",
+      "affected_columns": [
+        "father_name"
+      ],
+      "detecting_expression": "(df['father_name'].str.strip() == '')",
+      "count": 5035,
+      "percentage": 9.26,
+      "proposed_action": "impute",
+      "reason": "Handle missingness according to model family (explicit missing category, Gower delta rule)."
+    },
+    {
+      "fault_code": "F5.national_id",
+      "category": "Missing value",
+      "fault_name": "Omitted / blank attribute (national_id)",
+      "affected_columns": [
+        "national_id"
+      ],
+      "detecting_expression": "(df['national_id'].str.strip() == '')",
+      "count": 4095,
+      "percentage": 7.53,
+      "proposed_action": "impute",
+      "reason": "Handle missingness according to model family (explicit missing category, Gower delta rule)."
+    },
+    {
+      "fault_code": "F5.phone",
+      "category": "Missing value",
+      "fault_name": "Omitted / blank attribute (phone)",
+      "affected_columns": [
+        "phone"
+      ],
+      "detecting_expression": "(df['phone'].str.strip() == '')",
+      "count": 3131,
+      "percentage": 5.76,
+      "proposed_action": "impute",
+      "reason": "Handle missingness according to model family (explicit missing category, Gower delta rule)."
+    },
+    {
+      "fault_code": "F5.date_of_birth",
+      "category": "Missing value",
+      "fault_name": "Omitted / blank attribute (date_of_birth)",
+      "affected_columns": [
+        "date_of_birth"
+      ],
+      "detecting_expression": "(df['date_of_birth'].str.strip() == '')",
+      "count": 492,
+      "percentage": 0.9,
+      "proposed_action": "impute",
+      "reason": "Handle missingness according to model family (explicit missing category, Gower delta rule)."
+    },
+    {
+      "fault_code": "F5.blood_group",
+      "category": "Missing value",
+      "fault_name": "Omitted / blank attribute (blood_group)",
+      "affected_columns": [
+        "blood_group"
+      ],
+      "detecting_expression": "(df['blood_group'].str.strip() == '')",
+      "count": 4844,
+      "percentage": 8.91,
+      "proposed_action": "impute",
+      "reason": "Handle missingness according to model family (explicit missing category, Gower delta rule)."
+    },
+    {
+      "fault_code": "F5.insurance_tier",
+      "category": "Missing value",
+      "fault_name": "Omitted / blank attribute (insurance_tier)",
+      "affected_columns": [
+        "insurance_tier"
+      ],
+      "detecting_expression": "(df['insurance_tier'].str.strip() == '')",
+      "count": 5566,
+      "percentage": 10.24,
+      "proposed_action": "impute",
+      "reason": "Handle missingness according to model family (explicit missing category, Gower delta rule)."
+    },
+    {
+      "fault_code": "F6.1",
+      "category": "Measurement (entry) error",
+      "fault_name": "Name typographical errors / rare variants outside Pakistani lexicon",
+      "affected_columns": [
+        "first_name",
+        "family_name"
+      ],
+      "detecting_expression": "~df['first_name'].str.lower().isin(first_lexicon) | ~df['family_name'].str.lower().isin(fam_lexicon)",
+      "count": 4632,
+      "percentage": 8.52,
+      "proposed_action": "investigate",
+      "reason": "DO NOT correct typos toward ground truth. Matching noisy names via edit distance is the model's job."
+    },
+    {
+      "fault_code": "F7.1",
+      "category": "Outlier",
+      "fault_name": "Extreme visit count far above robust MAD threshold (>100 / 9999)",
+      "affected_columns": [
+        "visit_count"
+      ],
+      "detecting_expression": "(robust_z > 3.5) & (df['visit_count'] > 100)",
+      "count": 97,
+      "percentage": 0.18,
+      "proposed_action": "investigate",
+      "reason": "Cap at plausible maximum (e.g. 100) or log-transform; do not blindly delete (Lecture 2)."
+    },
+    {
+      "fault_code": "F8.1",
+      "category": "Collection error",
+      "fault_name": "Systematic omission of national_id in Legacy subsystem (100% missing)",
+      "affected_columns": [
+        "national_id",
+        "source_system"
+      ],
+      "detecting_expression": "(df['source_system'] == 'Legacy') & (df['national_id'] == '')",
+      "count": 2662,
+      "percentage": 4.9,
+      "proposed_action": "flag",
+      "reason": "Document structural gap; treat as systemic collection artifact rather than random missingness."
+    },
+    {
+      "fault_code": "F8.2",
+      "category": "Collection error",
+      "fault_name": "Systematic omission of father_name in Emergency subsystem (70% missing)",
+      "affected_columns": [
+        "father_name",
+        "source_system"
+      ],
+      "detecting_expression": "(df['source_system'] == 'Emergency') & (df['father_name'] == '')",
+      "count": 3858,
+      "percentage": 7.1,
+      "proposed_action": "flag",
+      "reason": "Recognize emergency triage workflow; do not drop rows or assume missing completely at random."
+    }
+  ],
+  "missingness_dependency_analysis": {
+    "national_id": {
+      "chi2_statistic": 34367.48,
+      "p_value": 0.0,
+      "degrees_of_freedom": 5,
+      "is_statistically_significant": true,
+      "per_source_system": {
+        "Emergency": {
+          "missing": 150,
+          "total": 5468,
+          "rate": 0.0274
+        },
+        "Lab": {
+          "missing": 310,
+          "total": 11012,
+          "rate": 0.0282
+        },
+        "Legacy": {
+          "missing": 2662,
+          "total": 2662,
+          "rate": 1.0
+        },
+        "OPD": {
+          "missing": 524,
+          "total": 19076,
+          "rate": 0.0275
+        },
+        "Pharmacy": {
+          "missing": 244,
+          "total": 8134,
+          "rate": 0.03
+        },
+        "Radiology": {
+          "missing": 205,
+          "total": 8021,
+          "rate": 0.0256
+        }
+      }
+    },
+    "father_name": {
+      "chi2_statistic": 27184.21,
+      "p_value": 0.0,
+      "degrees_of_freedom": 5,
+      "is_statistically_significant": true,
+      "per_source_system": {
+        "Emergency": {
+          "missing": 3858,
+          "total": 5468,
+          "rate": 0.7056
+        },
+        "Lab": {
+          "missing": 281,
+          "total": 11012,
+          "rate": 0.0255
+        },
+        "Legacy": {
+          "missing": 59,
+          "total": 2662,
+          "rate": 0.0222
+        },
+        "OPD": {
+          "missing": 459,
+          "total": 19076,
+          "rate": 0.0241
+        },
+        "Pharmacy": {
+          "missing": 198,
+          "total": 8134,
+          "rate": 0.0243
+        },
+        "Radiology": {
+          "missing": 180,
+          "total": 8021,
+          "rate": 0.0224
+        }
+      }
+    },
+    "phone": {
+      "chi2_statistic": 13915.45,
+      "p_value": 0.0,
+      "degrees_of_freedom": 5,
+      "is_statistically_significant": true,
+      "per_source_system": {
+        "Emergency": {
+          "missing": 2242,
+          "total": 5468,
+          "rate": 0.41
+        },
+        "Lab": {
+          "missing": 189,
+          "total": 11012,
+          "rate": 0.0172
+        },
+        "Legacy": {
+          "missing": 46,
+          "total": 2662,
+          "rate": 0.0173
+        },
+        "OPD": {
+          "missing": 355,
+          "total": 19076,
+          "rate": 0.0186
+        },
+        "Pharmacy": {
+          "missing": 145,
+          "total": 8134,
+          "rate": 0.0178
+        },
+        "Radiology": {
+          "missing": 154,
+          "total": 8021,
+          "rate": 0.0192
+        }
+      }
+    },
+    "insurance_tier": {
+      "chi2_statistic": 24416.17,
+      "p_value": 0.0,
+      "degrees_of_freedom": 5,
+      "is_statistically_significant": true,
+      "per_source_system": {
+        "Emergency": {
+          "missing": 0,
+          "total": 5468,
+          "rate": 0.0
+        },
+        "Lab": {
+          "missing": 5566,
+          "total": 11012,
+          "rate": 0.5054
+        },
+        "Legacy": {
+          "missing": 0,
+          "total": 2662,
+          "rate": 0.0
+        },
+        "OPD": {
+          "missing": 0,
+          "total": 19076,
+          "rate": 0.0
+        },
+        "Pharmacy": {
+          "missing": 0,
+          "total": 8134,
+          "rate": 0.0
+        },
+        "Radiology": {
+          "missing": 0,
+          "total": 8021,
+          "rate": 0.0
+        }
+      }
+    }
+  },
+  "detector_evaluation_vs_fault_log": {
+    "city_alias": {
+      "ground_truth_faults": 2324,
+      "detected_faults": 2324,
+      "true_positives": 2324,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "gender_dirty": {
+      "ground_truth_faults": 1410,
+      "detected_faults": 1410,
+      "true_positives": 1410,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "sentinel_dob": {
+      "ground_truth_faults": 392,
+      "detected_faults": 394,
+      "true_positives": 392,
+      "precision": 0.9949,
+      "recall": 1.0
+    },
+    "name_typos": {
+      "ground_truth_faults": 3563,
+      "detected_faults": 4632,
+      "true_positives": 3555,
+      "precision": 0.7675,
+      "recall": 0.9978
+    }
+  }
+}

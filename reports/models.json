@@ -1,0 +1,915 @@
+{
+  "timestamp": "2026-10-27T01:55:18.489265",
+  "data_hash": "661c9cefde87a4a469a05a9d62728c1b102069b31cd3092cc5b24d8ff841269d",
+  "n_training_samples": 51984,
+  "n_shipped_features": 15,
+  "shipped_features": [
+    "father_exact",
+    "dob_exact",
+    "dob_day_equal",
+    "dob_month_equal",
+    "dob_one_digit_edit",
+    "dob_diff_days_log",
+    "nid_hamming_le_1",
+    "nid_levenshtein",
+    "phone_last7_equal",
+    "phone_edit_distance",
+    "city_equal",
+    "address_token_jaccard",
+    "blood_group_equal",
+    "visit_count_diff_log",
+    "gower_similarity"
+  ],
+  "selection_objective": "PR-AUC (Average Precision)",
+  "one_standard_error_rule_applied": true,
+  "zero_probability_demonstration": {
+    "feature_tested": "dob_diff_days_log",
+    "results": [
+      {
+        "alpha": 0.0,
+        "smoothing_label": "Unsmoothed (alpha=0.0)",
+        "p_duplicate": 0.0,
+        "p_non_duplicate": 1.0,
+        "collapsed_to_zero": true
+      },
+      {
+        "alpha": 0.01,
+        "smoothing_label": "Lidstone/Laplace (0.01)",
+        "p_duplicate": 1.0,
+        "p_non_duplicate": 0.0,
+        "collapsed_to_zero": false
+      },
+      {
+        "alpha": 0.1,
+        "smoothing_label": "Lidstone/Laplace (0.1)",
+        "p_duplicate": 1.0,
+        "p_non_duplicate": 0.0,
+        "collapsed_to_zero": false
+      },
+      {
+        "alpha": 0.5,
+        "smoothing_label": "Lidstone/Laplace (0.5)",
+        "p_duplicate": 1.0,
+        "p_non_duplicate": 0.0,
+        "collapsed_to_zero": false
+      },
+      {
+        "alpha": 1.0,
+        "smoothing_label": "Lidstone/Laplace (1.0)",
+        "p_duplicate": 1.0,
+        "p_non_duplicate": 0.0,
+        "collapsed_to_zero": false
+      },
+      {
+        "alpha": 2.0,
+        "smoothing_label": "Lidstone/Laplace (2.0)",
+        "p_duplicate": 1.0,
+        "p_non_duplicate": 0.0,
+        "collapsed_to_zero": false
+      }
+    ],
+    "explanation": "In Lecture 3, we studied the Zero-Probability Problem: if a single feature category has zero counts in the training duplicate class, P(x_j | Duplicate) = 0. Because Naive Bayes multiplies class-conditional probabilities (\u220f P(x_i | Y)), that single zero wipes out all other 14 matching attributes, collapsing the posterior duplicate probability to 0.0. Laplace smoothing (alpha=1.0) adds a uniform pseudo-count across all bins, ensuring P(x_j | Duplicate) > 0 and preserving the overwhelming cumulative evidence."
+  },
+  "comparison_table": [
+    {
+      "family": "Pruned Decision Tree",
+      "model_key": "decision_tree",
+      "pr_auc_mean": 0.998601,
+      "pr_auc_std": 0.001232,
+      "roc_auc_mean": 0.999569,
+      "roc_auc_std": 0.000758,
+      "f1_mean": 0.997638,
+      "f1_std": 0.000375,
+      "brier_score_mean": 0.000581,
+      "expected_cost_mean": 5.68,
+      "expected_cost_std": 4.13,
+      "fit_time_sec": 9.956,
+      "explainability": "HIGHEST (plain-language decision tree rules)"
+    },
+    {
+      "family": "Categorical Naive Bayes",
+      "model_key": "naive_bayes",
+      "pr_auc_mean": 0.996167,
+      "pr_auc_std": 0.001819,
+      "roc_auc_mean": 0.999617,
+      "roc_auc_std": 0.00013,
+      "f1_mean": 0.994148,
+      "f1_std": 0.000519,
+      "brier_score_mean": 0.001736,
+      "expected_cost_mean": 9.81,
+      "expected_cost_std": 0.87,
+      "fit_time_sec": 9.592,
+      "explainability": "HIGH (log-likelihood ratio feature evidence)"
+    },
+    {
+      "family": "k-Nearest Neighbours",
+      "model_key": "knn",
+      "pr_auc_mean": 0.996809,
+      "pr_auc_std": 0.001264,
+      "roc_auc_mean": 0.999679,
+      "roc_auc_std": 0.000126,
+      "f1_mean": 0.996606,
+      "f1_std": 0.000655,
+      "brier_score_mean": 0.001028,
+      "expected_cost_mean": 5.96,
+      "expected_cost_std": 1.43,
+      "fit_time_sec": 27.541,
+      "explainability": "HIGH (nearest labelled historic exemplar pairs)"
+    },
+    {
+      "family": "Multi-Layer Perceptron",
+      "model_key": "mlp",
+      "pr_auc_mean": 0.998005,
+      "pr_auc_std": 0.001332,
+      "roc_auc_mean": 0.999693,
+      "roc_auc_std": 0.000145,
+      "f1_mean": 0.99301,
+      "f1_std": 0.00146,
+      "brier_score_mean": 0.00192,
+      "expected_cost_mean": 11.73,
+      "expected_cost_std": 2.47,
+      "fit_time_sec": 19.156,
+      "explainability": "LOW (non-linear neural weight black box)"
+    }
+  ],
+  "models": {
+    "decision_tree": {
+      "name": "Pruned Decision Tree",
+      "chosen_summary": {
+        "chosen_params": {
+          "criterion": "gini",
+          "max_depth": 5,
+          "min_samples_leaf": 10,
+          "ccp_alpha": 0.0
+        },
+        "chosen_metrics": {
+          "params": {
+            "criterion": "gini",
+            "max_depth": 5,
+            "min_samples_leaf": 10,
+            "ccp_alpha": 0.0
+          },
+          "pr_auc_mean": 0.998601,
+          "pr_auc_std": 0.001232,
+          "pr_auc_se": 0.000551,
+          "roc_auc_mean": 0.999569,
+          "roc_auc_std": 0.000758,
+          "brier_score_mean": 0.000581,
+          "brier_score_std": 0.000166,
+          "f1_mean": 0.997638,
+          "f1_std": 0.000375,
+          "expected_cost_1k_mean": 5.68,
+          "expected_cost_1k_std": 4.13,
+          "fit_time_sec": 9.956,
+          "simplicity_score": 15.0
+        },
+        "best_numerical_params": {
+          "criterion": "gini",
+          "max_depth": 5,
+          "min_samples_leaf": 10,
+          "ccp_alpha": 0.0
+        },
+        "best_numerical_pr_auc": 0.998601,
+        "standard_error": 0.000551,
+        "tolerance_threshold": 0.99805,
+        "simpler_model_selected": false,
+        "eligible_candidates_count": 3
+      },
+      "candidates": [
+        {
+          "params": {
+            "criterion": "gini",
+            "max_depth": 5,
+            "min_samples_leaf": 10,
+            "ccp_alpha": 0.0
+          },
+          "pr_auc_mean": 0.998601,
+          "pr_auc_std": 0.001232,
+          "pr_auc_se": 0.000551,
+          "roc_auc_mean": 0.999569,
+          "roc_auc_std": 0.000758,
+          "brier_score_mean": 0.000581,
+          "brier_score_std": 0.000166,
+          "f1_mean": 0.997638,
+          "f1_std": 0.000375,
+          "expected_cost_1k_mean": 5.68,
+          "expected_cost_1k_std": 4.13,
+          "fit_time_sec": 9.956,
+          "simplicity_score": 15.0
+        },
+        {
+          "params": {
+            "criterion": "entropy",
+            "max_depth": 5,
+            "min_samples_leaf": 10,
+            "ccp_alpha": 0.0
+          },
+          "pr_auc_mean": 0.998423,
+          "pr_auc_std": 0.001303,
+          "pr_auc_se": 0.000583,
+          "roc_auc_mean": 0.999553,
+          "roc_auc_std": 0.000752,
+          "brier_score_mean": 0.000543,
+          "brier_score_std": 0.000197,
+          "f1_mean": 0.998155,
+          "f1_std": 0.000599,
+          "expected_cost_1k_mean": 4.81,
+          "expected_cost_1k_std": 4.63,
+          "fit_time_sec": 10.207,
+          "simplicity_score": 15.0
+        },
+        {
+          "params": {
+            "criterion": "gini",
+            "max_depth": 7,
+            "min_samples_leaf": 10,
+            "ccp_alpha": 0.0
+          },
+          "pr_auc_mean": 0.998368,
+          "pr_auc_std": 0.001263,
+          "pr_auc_se": 0.000565,
+          "roc_auc_mean": 0.999544,
+          "roc_auc_std": 0.000762,
+          "brier_score_mean": 0.00059,
+          "brier_score_std": 0.000166,
+          "f1_mean": 0.997638,
+          "f1_std": 0.000375,
+          "expected_cost_1k_mean": 5.68,
+          "expected_cost_1k_std": 4.13,
+          "fit_time_sec": 9.987,
+          "simplicity_score": 13.0
+        },
+        {
+          "params": {
+            "criterion": "gini",
+            "max_depth": 10,
+            "min_samples_leaf": 10,
+            "ccp_alpha": 0.0
+          },
+          "pr_auc_mean": 0.997536,
+          "pr_auc_std": 0.001049,
+          "pr_auc_se": 0.000469,
+          "roc_auc_mean": 0.999463,
+          "roc_auc_std": 0.00074,
+          "brier_score_mean": 0.00061,
+          "brier_score_std": 0.000177,
+          "f1_mean": 0.997638,
+          "f1_std": 0.000375,
+          "expected_cost_1k_mean": 5.68,
+          "expected_cost_1k_std": 4.13,
+          "fit_time_sec": 9.922,
+          "simplicity_score": 10.0
+        },
+        {
+          "params": {
+            "criterion": "gini",
+            "max_depth": 3,
+            "min_samples_leaf": 20,
+            "ccp_alpha": 0.0
+          },
+          "pr_auc_mean": 0.997286,
+          "pr_auc_std": 0.000756,
+          "pr_auc_se": 0.000338,
+          "roc_auc_mean": 0.999439,
+          "roc_auc_std": 0.00071,
+          "brier_score_mean": 0.000579,
+          "brier_score_std": 0.000168,
+          "f1_mean": 0.997523,
+          "f1_std": 0.000628,
+          "expected_cost_1k_mean": 5.87,
+          "expected_cost_1k_std": 4.12,
+          "fit_time_sec": 9.896,
+          "simplicity_score": 27.0
+        },
+        {
+          "params": {
+            "criterion": "entropy",
+            "max_depth": 7,
+            "min_samples_leaf": 10,
+            "ccp_alpha": 0.001
+          },
+          "pr_auc_mean": 0.996767,
+          "pr_auc_std": 0.00099,
+          "pr_auc_se": 0.000443,
+          "roc_auc_mean": 0.999387,
+          "roc_auc_std": 0.000722,
+          "brier_score_mean": 0.000544,
+          "brier_score_std": 0.000196,
+          "f1_mean": 0.998155,
+          "f1_std": 0.000599,
+          "expected_cost_1k_mean": 4.81,
+          "expected_cost_1k_std": 4.63,
+          "fit_time_sec": 9.957,
+          "simplicity_score": 14.0
+        },
+        {
+          "params": {
+            "criterion": "entropy",
+            "max_depth": 7,
+            "min_samples_leaf": 20,
+            "ccp_alpha": 0.002
+          },
+          "pr_auc_mean": 0.995724,
+          "pr_auc_std": 0.0007,
+          "pr_auc_se": 0.000313,
+          "roc_auc_mean": 0.999282,
+          "roc_auc_std": 0.000664,
+          "brier_score_mean": 0.00071,
+          "brier_score_std": 0.000129,
+          "f1_mean": 0.997868,
+          "f1_std": 0.000388,
+          "expected_cost_1k_mean": 5.29,
+          "expected_cost_1k_std": 4.33,
+          "fit_time_sec": 10.116,
+          "simplicity_score": 25.0
+        },
+        {
+          "params": {
+            "criterion": "gini",
+            "max_depth": 5,
+            "min_samples_leaf": 20,
+            "ccp_alpha": 0.001
+          },
+          "pr_auc_mean": 0.995234,
+          "pr_auc_std": 0.003503,
+          "pr_auc_se": 0.001567,
+          "roc_auc_mean": 0.999232,
+          "roc_auc_std": 0.000725,
+          "brier_score_mean": 0.000823,
+          "brier_score_std": 0.00058,
+          "f1_mean": 0.997525,
+          "f1_std": 0.00175,
+          "expected_cost_1k_mean": 5.87,
+          "expected_cost_1k_std": 4.95,
+          "fit_time_sec": 10.173,
+          "simplicity_score": 26.0
+        },
+        {
+          "params": {
+            "criterion": "gini",
+            "max_depth": 7,
+            "min_samples_leaf": 20,
+            "ccp_alpha": 0.002
+          },
+          "pr_auc_mean": 0.990502,
+          "pr_auc_std": 0.001644,
+          "pr_auc_se": 0.000735,
+          "roc_auc_mean": 0.998753,
+          "roc_auc_std": 0.000737,
+          "brier_score_mean": 0.001603,
+          "brier_score_std": 0.000297,
+          "f1_mean": 0.995172,
+          "f1_std": 0.000895,
+          "expected_cost_1k_mean": 9.81,
+          "expected_cost_1k_std": 4.89,
+          "fit_time_sec": 9.867,
+          "simplicity_score": 25.0
+        }
+      ],
+      "reasoning": "Chosen via 1-SE rule. Modest tree depth prevents memorizing noise while providing crisp single-attribute split thresholds easily translated into clerk-facing sentences."
+    },
+    "naive_bayes": {
+      "name": "Categorical Naive Bayes",
+      "chosen_summary": {
+        "chosen_params": {
+          "alpha": 1.0,
+          "n_bins": 5,
+          "bin_scheme": "quantile"
+        },
+        "chosen_metrics": {
+          "params": {
+            "alpha": 1.0,
+            "n_bins": 5,
+            "bin_scheme": "quantile"
+          },
+          "pr_auc_mean": 0.996167,
+          "pr_auc_std": 0.001819,
+          "pr_auc_se": 0.000814,
+          "roc_auc_mean": 0.999617,
+          "roc_auc_std": 0.00013,
+          "brier_score_mean": 0.001736,
+          "brier_score_std": 0.000176,
+          "f1_mean": 0.994148,
+          "f1_std": 0.000519,
+          "expected_cost_1k_mean": 9.81,
+          "expected_cost_1k_std": 0.87,
+          "fit_time_sec": 9.592,
+          "simplicity_score": 15.0
+        },
+        "best_numerical_params": {
+          "alpha": 1.0,
+          "n_bins": 5,
+          "bin_scheme": "quantile"
+        },
+        "best_numerical_pr_auc": 0.996167,
+        "standard_error": 0.000814,
+        "tolerance_threshold": 0.995353,
+        "simpler_model_selected": false,
+        "eligible_candidates_count": 1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 1.0,
+            "n_bins": 5,
+            "bin_scheme": "quantile"
+          },
+          "pr_auc_mean": 0.996167,
+          "pr_auc_std": 0.001819,
+          "pr_auc_se": 0.000814,
+          "roc_auc_mean": 0.999617,
+          "roc_auc_std": 0.00013,
+          "brier_score_mean": 0.001736,
+          "brier_score_std": 0.000176,
+          "f1_mean": 0.994148,
+          "f1_std": 0.000519,
+          "expected_cost_1k_mean": 9.81,
+          "expected_cost_1k_std": 0.87,
+          "fit_time_sec": 9.592,
+          "simplicity_score": 15.0
+        },
+        {
+          "params": {
+            "alpha": 0.01,
+            "n_bins": 5,
+            "bin_scheme": "entropy"
+          },
+          "pr_auc_mean": 0.993841,
+          "pr_auc_std": 0.001649,
+          "pr_auc_se": 0.000737,
+          "roc_auc_mean": 0.999367,
+          "roc_auc_std": 0.000166,
+          "brier_score_mean": 0.001426,
+          "brier_score_std": 0.00021,
+          "f1_mean": 0.995691,
+          "f1_std": 0.000671,
+          "expected_cost_1k_mean": 7.21,
+          "expected_cost_1k_std": 1.13,
+          "fit_time_sec": 10.619,
+          "simplicity_score": 10.1
+        },
+        {
+          "params": {
+            "alpha": 0.1,
+            "n_bins": 5,
+            "bin_scheme": "entropy"
+          },
+          "pr_auc_mean": 0.993772,
+          "pr_auc_std": 0.001648,
+          "pr_auc_se": 0.000737,
+          "roc_auc_mean": 0.999359,
+          "roc_auc_std": 0.000166,
+          "brier_score_mean": 0.001437,
+          "brier_score_std": 0.00022,
+          "f1_mean": 0.995691,
+          "f1_std": 0.000671,
+          "expected_cost_1k_mean": 7.21,
+          "expected_cost_1k_std": 1.13,
+          "fit_time_sec": 10.599,
+          "simplicity_score": 11.0
+        },
+        {
+          "params": {
+            "alpha": 0.5,
+            "n_bins": 5,
+            "bin_scheme": "entropy"
+          },
+          "pr_auc_mean": 0.993644,
+          "pr_auc_std": 0.001672,
+          "pr_auc_se": 0.000748,
+          "roc_auc_mean": 0.999345,
+          "roc_auc_std": 0.000168,
+          "brier_score_mean": 0.001441,
+          "brier_score_std": 0.000224,
+          "f1_mean": 0.995691,
+          "f1_std": 0.000671,
+          "expected_cost_1k_mean": 7.21,
+          "expected_cost_1k_std": 1.13,
+          "fit_time_sec": 10.212,
+          "simplicity_score": 15.0
+        },
+        {
+          "params": {
+            "alpha": 1.0,
+            "n_bins": 8,
+            "bin_scheme": "entropy"
+          },
+          "pr_auc_mean": 0.993561,
+          "pr_auc_std": 0.001688,
+          "pr_auc_se": 0.000755,
+          "roc_auc_mean": 0.999338,
+          "roc_auc_std": 0.000168,
+          "brier_score_mean": 0.001443,
+          "brier_score_std": 0.000225,
+          "f1_mean": 0.995691,
+          "f1_std": 0.000671,
+          "expected_cost_1k_mean": 7.21,
+          "expected_cost_1k_std": 1.13,
+          "fit_time_sec": 10.243,
+          "simplicity_score": 17.0
+        },
+        {
+          "params": {
+            "alpha": 1.0,
+            "n_bins": 5,
+            "bin_scheme": "entropy"
+          },
+          "pr_auc_mean": 0.993544,
+          "pr_auc_std": 0.001691,
+          "pr_auc_se": 0.000756,
+          "roc_auc_mean": 0.999336,
+          "roc_auc_std": 0.000169,
+          "brier_score_mean": 0.001442,
+          "brier_score_std": 0.000225,
+          "f1_mean": 0.995691,
+          "f1_std": 0.000671,
+          "expected_cost_1k_mean": 7.21,
+          "expected_cost_1k_std": 1.13,
+          "fit_time_sec": 10.823,
+          "simplicity_score": 20.0
+        },
+        {
+          "params": {
+            "alpha": 2.0,
+            "n_bins": 5,
+            "bin_scheme": "entropy"
+          },
+          "pr_auc_mean": 0.993522,
+          "pr_auc_std": 0.001689,
+          "pr_auc_se": 0.000755,
+          "roc_auc_mean": 0.999333,
+          "roc_auc_std": 0.000169,
+          "brier_score_mean": 0.001443,
+          "brier_score_std": 0.000225,
+          "f1_mean": 0.995691,
+          "f1_std": 0.000671,
+          "expected_cost_1k_mean": 7.21,
+          "expected_cost_1k_std": 1.13,
+          "fit_time_sec": 9.868,
+          "simplicity_score": 30.0
+        },
+        {
+          "params": {
+            "alpha": 1.0,
+            "n_bins": 3,
+            "bin_scheme": "entropy"
+          },
+          "pr_auc_mean": 0.993499,
+          "pr_auc_std": 0.001692,
+          "pr_auc_se": 0.000757,
+          "roc_auc_mean": 0.999329,
+          "roc_auc_std": 0.00017,
+          "brier_score_mean": 0.001443,
+          "brier_score_std": 0.000224,
+          "f1_mean": 0.995691,
+          "f1_std": 0.000671,
+          "expected_cost_1k_mean": 7.21,
+          "expected_cost_1k_std": 1.13,
+          "fit_time_sec": 10.205,
+          "simplicity_score": 22.0
+        }
+      ],
+      "reasoning": "Supervised entropy (MDLP) binning places split cutpoints at minimal class entropy boundaries. Laplace smoothing (alpha=1.0) eliminates the zero-probability failure mode."
+    },
+    "knn": {
+      "name": "k-Nearest Neighbours",
+      "chosen_summary": {
+        "chosen_params": {
+          "n_neighbors": 15,
+          "metric": "euclidean",
+          "weights": "uniform"
+        },
+        "chosen_metrics": {
+          "params": {
+            "n_neighbors": 15,
+            "metric": "euclidean",
+            "weights": "uniform"
+          },
+          "pr_auc_mean": 0.996809,
+          "pr_auc_std": 0.001264,
+          "pr_auc_se": 0.000565,
+          "roc_auc_mean": 0.999679,
+          "roc_auc_std": 0.000126,
+          "brier_score_mean": 0.001028,
+          "brier_score_std": 0.000183,
+          "f1_mean": 0.996606,
+          "f1_std": 0.000655,
+          "expected_cost_1k_mean": 5.96,
+          "expected_cost_1k_std": 1.43,
+          "fit_time_sec": 27.541,
+          "simplicity_score": 22.0
+        },
+        "best_numerical_params": {
+          "n_neighbors": 7,
+          "metric": "manhattan",
+          "weights": "uniform"
+        },
+        "best_numerical_pr_auc": 0.99693,
+        "standard_error": 0.000425,
+        "tolerance_threshold": 0.996505,
+        "simpler_model_selected": true,
+        "eligible_candidates_count": 5
+      },
+      "candidates": [
+        {
+          "params": {
+            "n_neighbors": 7,
+            "metric": "manhattan",
+            "weights": "uniform"
+          },
+          "pr_auc_mean": 0.99693,
+          "pr_auc_std": 0.000949,
+          "pr_auc_se": 0.000425,
+          "roc_auc_mean": 0.999692,
+          "roc_auc_std": 9.5e-05,
+          "brier_score_mean": 0.000906,
+          "brier_score_std": 0.000162,
+          "f1_mean": 0.996721,
+          "f1_std": 0.000522,
+          "expected_cost_1k_mean": 6.06,
+          "expected_cost_1k_std": 1.21,
+          "fit_time_sec": 27.793,
+          "simplicity_score": 12.0
+        },
+        {
+          "params": {
+            "n_neighbors": 5,
+            "metric": "manhattan",
+            "weights": "uniform"
+          },
+          "pr_auc_mean": 0.996835,
+          "pr_auc_std": 0.000777,
+          "pr_auc_se": 0.000348,
+          "roc_auc_mean": 0.999682,
+          "roc_auc_std": 7.8e-05,
+          "brier_score_mean": 0.000883,
+          "brier_score_std": 0.000157,
+          "f1_mean": 0.996779,
+          "f1_std": 0.000552,
+          "expected_cost_1k_mean": 5.39,
+          "expected_cost_1k_std": 0.92,
+          "fit_time_sec": 26.577,
+          "simplicity_score": 10.0
+        },
+        {
+          "params": {
+            "n_neighbors": 15,
+            "metric": "euclidean",
+            "weights": "uniform"
+          },
+          "pr_auc_mean": 0.996809,
+          "pr_auc_std": 0.001264,
+          "pr_auc_se": 0.000565,
+          "roc_auc_mean": 0.999679,
+          "roc_auc_std": 0.000126,
+          "brier_score_mean": 0.001028,
+          "brier_score_std": 0.000183,
+          "f1_mean": 0.996606,
+          "f1_std": 0.000655,
+          "expected_cost_1k_mean": 5.96,
+          "expected_cost_1k_std": 1.43,
+          "fit_time_sec": 27.541,
+          "simplicity_score": 22.0
+        },
+        {
+          "params": {
+            "n_neighbors": 11,
+            "metric": "euclidean",
+            "weights": "uniform"
+          },
+          "pr_auc_mean": 0.996755,
+          "pr_auc_std": 0.001395,
+          "pr_auc_se": 0.000624,
+          "roc_auc_mean": 0.999673,
+          "roc_auc_std": 0.00014,
+          "brier_score_mean": 0.001016,
+          "brier_score_std": 0.000172,
+          "f1_mean": 0.996375,
+          "f1_std": 0.000596,
+          "expected_cost_1k_mean": 7.5,
+          "expected_cost_1k_std": 1.43,
+          "fit_time_sec": 26.188,
+          "simplicity_score": 18.0
+        },
+        {
+          "params": {
+            "n_neighbors": 7,
+            "metric": "euclidean",
+            "weights": "uniform"
+          },
+          "pr_auc_mean": 0.996688,
+          "pr_auc_std": 0.001192,
+          "pr_auc_se": 0.000533,
+          "roc_auc_mean": 0.999667,
+          "roc_auc_std": 0.00012,
+          "brier_score_mean": 0.000976,
+          "brier_score_std": 0.000144,
+          "f1_mean": 0.99649,
+          "f1_std": 0.000374,
+          "expected_cost_1k_mean": 7.02,
+          "expected_cost_1k_std": 1.11,
+          "fit_time_sec": 24.74,
+          "simplicity_score": 14.0
+        },
+        {
+          "params": {
+            "n_neighbors": 5,
+            "metric": "euclidean",
+            "weights": "distance"
+          },
+          "pr_auc_mean": 0.996495,
+          "pr_auc_std": 0.001155,
+          "pr_auc_se": 0.000516,
+          "roc_auc_mean": 0.999648,
+          "roc_auc_std": 0.000116,
+          "brier_score_mean": 0.000924,
+          "brier_score_std": 0.000215,
+          "f1_mean": 0.997007,
+          "f1_std": 0.000629,
+          "expected_cost_1k_mean": 6.16,
+          "expected_cost_1k_std": 1.75,
+          "fit_time_sec": 24.085,
+          "simplicity_score": 7.0
+        },
+        {
+          "params": {
+            "n_neighbors": 5,
+            "metric": "euclidean",
+            "weights": "uniform"
+          },
+          "pr_auc_mean": 0.996478,
+          "pr_auc_std": 0.001149,
+          "pr_auc_se": 0.000514,
+          "roc_auc_mean": 0.999646,
+          "roc_auc_std": 0.000116,
+          "brier_score_mean": 0.000972,
+          "brier_score_std": 0.000146,
+          "f1_mean": 0.996607,
+          "f1_std": 0.000552,
+          "expected_cost_1k_mean": 5.67,
+          "expected_cost_1k_std": 0.93,
+          "fit_time_sec": 23.559,
+          "simplicity_score": 12.0
+        },
+        {
+          "params": {
+            "n_neighbors": 3,
+            "metric": "euclidean",
+            "weights": "uniform"
+          },
+          "pr_auc_mean": 0.996314,
+          "pr_auc_std": 0.000974,
+          "pr_auc_se": 0.000435,
+          "roc_auc_mean": 0.999534,
+          "roc_auc_std": 0.000215,
+          "brier_score_mean": 0.000945,
+          "brier_score_std": 0.000133,
+          "f1_mean": 0.996893,
+          "f1_std": 0.000426,
+          "expected_cost_1k_mean": 5.77,
+          "expected_cost_1k_std": 1.52,
+          "fit_time_sec": 22.613,
+          "simplicity_score": 10.0
+        }
+      ],
+      "reasoning": "Odd k-value prevents distance ties. Evaluated in normalized Euclidean metric space, providing case-based reasoning by retrieving nearest historic patient pairs."
+    },
+    "mlp": {
+      "name": "Multi-Layer Perceptron",
+      "chosen_summary": {
+        "chosen_params": {
+          "hidden_layer_sizes": [
+            16,
+            8
+          ],
+          "alpha": 0.01
+        },
+        "chosen_metrics": {
+          "params": {
+            "hidden_layer_sizes": [
+              16,
+              8
+            ],
+            "alpha": 0.01
+          },
+          "pr_auc_mean": 0.998005,
+          "pr_auc_std": 0.001332,
+          "pr_auc_se": 0.000596,
+          "roc_auc_mean": 0.999693,
+          "roc_auc_std": 0.000145,
+          "brier_score_mean": 0.00192,
+          "brier_score_std": 0.000299,
+          "f1_mean": 0.99301,
+          "f1_std": 0.00146,
+          "expected_cost_1k_mean": 11.73,
+          "expected_cost_1k_std": 2.47,
+          "fit_time_sec": 19.156,
+          "simplicity_score": 20.0
+        },
+        "best_numerical_params": {
+          "hidden_layer_sizes": [
+            16,
+            8
+          ],
+          "alpha": 0.01
+        },
+        "best_numerical_pr_auc": 0.998005,
+        "standard_error": 0.000596,
+        "tolerance_threshold": 0.997409,
+        "simpler_model_selected": false,
+        "eligible_candidates_count": 4
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden_layer_sizes": [
+              16,
+              8
+            ],
+            "alpha": 0.01
+          },
+          "pr_auc_mean": 0.998005,
+          "pr_auc_std": 0.001332,
+          "pr_auc_se": 0.000596,
+          "roc_auc_mean": 0.999693,
+          "roc_auc_std": 0.000145,
+          "brier_score_mean": 0.00192,
+          "brier_score_std": 0.000299,
+          "f1_mean": 0.99301,
+          "f1_std": 0.00146,
+          "expected_cost_1k_mean": 11.73,
+          "expected_cost_1k_std": 2.47,
+          "fit_time_sec": 19.156,
+          "simplicity_score": 20.0
+        },
+        {
+          "params": {
+            "hidden_layer_sizes": [
+              16,
+              8
+            ],
+            "alpha": 0.0001
+          },
+          "pr_auc_mean": 0.997954,
+          "pr_auc_std": 0.001316,
+          "pr_auc_se": 0.000589,
+          "roc_auc_mean": 0.999685,
+          "roc_auc_std": 0.000142,
+          "brier_score_mean": 0.001921,
+          "brier_score_std": 0.000303,
+          "f1_mean": 0.992895,
+          "f1_std": 0.001341,
+          "expected_cost_1k_mean": 12.22,
+          "expected_cost_1k_std": 2.22,
+          "fit_time_sec": 19.182,
+          "simplicity_score": 10.1
+        },
+        {
+          "params": {
+            "hidden_layer_sizes": [
+              32,
+              16
+            ],
+            "alpha": 0.0001
+          },
+          "pr_auc_mean": 0.997916,
+          "pr_auc_std": 0.001311,
+          "pr_auc_se": 0.000586,
+          "roc_auc_mean": 0.999676,
+          "roc_auc_std": 0.000158,
+          "brier_score_mean": 0.001833,
+          "brier_score_std": 0.000597,
+          "f1_mean": 0.991377,
+          "f1_std": 0.004432,
+          "expected_cost_1k_mean": 14.81,
+          "expected_cost_1k_std": 7.2,
+          "fit_time_sec": 24.072,
+          "simplicity_score": 5.1
+        },
+        {
+          "params": {
+            "hidden_layer_sizes": [
+              32,
+              16
+            ],
+            "alpha": 0.01
+          },
+          "pr_auc_mean": 0.99783,
+          "pr_auc_std": 0.001163,
+          "pr_auc_se": 0.00052,
+          "roc_auc_mean": 0.999663,
+          "roc_auc_std": 0.000141,
+          "brier_score_mean": 0.00195,
+          "brier_score_std": 0.000654,
+          "f1_mean": 0.990982,
+          "f1_std": 0.004601,
+          "expected_cost_1k_mean": 15.49,
+          "expected_cost_1k_std": 7.43,
+          "fit_time_sec": 25.162,
+          "simplicity_score": 15.0
+        }
+      ],
+      "reasoning": "Team-approved 4th benchmark model. Demonstrates high continuous representation learning while illustrating the clinical trade-off between neural accuracy and governance explainability."
+    }
+  }
+}

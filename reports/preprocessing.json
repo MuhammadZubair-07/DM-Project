@@ -1,0 +1,287 @@
+{
+  "dataset": "train_features_resampled.parquet",
+  "n_samples": 51984,
+  "n_features": 58,
+  "rescaling": {
+    "Decision Tree": {
+      "unscaled": {
+        "pr_auc_mean": 0.9982,
+        "pr_auc_std": 0.0009,
+        "roc_auc_mean": 0.9995,
+        "roc_auc_std": 0.0007
+      },
+      "scaled": {
+        "pr_auc_mean": 0.9982,
+        "pr_auc_std": 0.0009,
+        "roc_auc_mean": 0.9995,
+        "roc_auc_std": 0.0007
+      },
+      "pr_auc_gain": 0.0,
+      "scale_invariant": true
+    },
+    "k-NN": {
+      "unscaled": {
+        "pr_auc_mean": 0.9939,
+        "pr_auc_std": 0.0032,
+        "roc_auc_mean": 0.9982,
+        "roc_auc_std": 0.0009
+      },
+      "scaled": {
+        "pr_auc_mean": 0.9975,
+        "pr_auc_std": 0.003,
+        "roc_auc_mean": 0.9998,
+        "roc_auc_std": 0.0003
+      },
+      "pr_auc_gain": 0.0036,
+      "scale_invariant": false
+    },
+    "MLP": {
+      "unscaled": {
+        "pr_auc_mean": 0.9998,
+        "pr_auc_std": 0.0002,
+        "roc_auc_mean": 1.0,
+        "roc_auc_std": 0.0
+      },
+      "scaled": {
+        "pr_auc_mean": 0.9999,
+        "pr_auc_std": 0.0001,
+        "roc_auc_mean": 1.0,
+        "roc_auc_std": 0.0
+      },
+      "pr_auc_gain": 0.0001,
+      "scale_invariant": true
+    }
+  },
+  "pca_vs_selection": {
+    "full_features": {
+      "n_features": 58,
+      "pr_auc": 0.9999,
+      "roc_auc": 1.0,
+      "runtime_sec": 12.929,
+      "explainability": "High (all raw features visible)"
+    },
+    "pca_cumulative_variance": {
+      "components_for_80_pct": 13,
+      "components_for_90_pct": 19,
+      "components_for_95_pct": 25,
+      "variance_curve": [
+        0.2533,
+        0.4097,
+        0.4868,
+        0.5468,
+        0.5947,
+        0.6363,
+        0.6689,
+        0.698,
+        0.7263,
+        0.7515,
+        0.7747,
+        0.797,
+        0.8162,
+        0.8333,
+        0.8495,
+        0.8654,
+        0.8803,
+        0.8924,
+        0.9036,
+        0.9136,
+        0.9227,
+        0.9309,
+        0.9378,
+        0.9445,
+        0.951,
+        0.9572,
+        0.9631,
+        0.9686,
+        0.9724,
+        0.9757
+      ]
+    },
+    "pca_evaluations": {
+      "PCA (k=5)": {
+        "n_components": 5,
+        "pr_auc": 0.9984,
+        "roc_auc": 0.9997,
+        "runtime_sec": 11.506,
+        "explained_variance_ratio": 0.5947
+      },
+      "PCA (k=10)": {
+        "n_components": 10,
+        "pr_auc": 0.9993,
+        "roc_auc": 0.9999,
+        "runtime_sec": 11.339,
+        "explained_variance_ratio": 0.7515
+      },
+      "PCA (k=15)": {
+        "n_components": 15,
+        "pr_auc": 0.9998,
+        "roc_auc": 1.0,
+        "runtime_sec": 12.968,
+        "explained_variance_ratio": 0.8495
+      },
+      "PCA (k=13)": {
+        "n_components": 13,
+        "pr_auc": 0.9997,
+        "roc_auc": 0.9999,
+        "runtime_sec": 11.926,
+        "explained_variance_ratio": 0.8162
+      },
+      "PCA (k=25)": {
+        "n_components": 25,
+        "pr_auc": 0.9998,
+        "roc_auc": 1.0,
+        "runtime_sec": 11.872,
+        "explained_variance_ratio": 0.951
+      }
+    },
+    "filter_selection": {
+      "n_features": 15,
+      "pr_auc": 0.9993,
+      "roc_auc": 0.9999,
+      "runtime_sec": 13.785,
+      "selected_features": [
+        "father_exact",
+        "dob_exact",
+        "dob_day_equal",
+        "dob_month_equal",
+        "dob_one_digit_edit",
+        "dob_diff_days_log",
+        "nid_hamming_le_1",
+        "nid_levenshtein",
+        "phone_last7_equal",
+        "phone_edit_distance",
+        "city_equal",
+        "address_token_jaccard",
+        "blood_group_equal",
+        "visit_count_diff_log",
+        "gower_similarity"
+      ],
+      "explainability": "High (explicit demographic features)"
+    },
+    "greedy_forward_selection": {
+      "n_features": 6,
+      "pr_auc": 0.9986,
+      "roc_auc": 0.9998,
+      "runtime_sec": 11.116,
+      "selected_features": [
+        "address_token_jaccard",
+        "dob_diff_days_log",
+        "dob_day_equal",
+        "father_exact",
+        "city_equal",
+        "phone_edit_distance"
+      ],
+      "explainability": "Highest (concise, non-redundant core rules)"
+    },
+    "recommendation": {
+      "chosen_strategy": "Feature Selection (Filter + Greedy)",
+      "justification": "Feature selection retains high PR-AUC while preserving native demographic meanings essential for the clerk's plain-English explanation screen. PCA components are orthogonal eigenvectors that obscure clinical explanations."
+    }
+  },
+  "discretization": {
+    "Equal-Width": {
+      "pr_auc_mean": 0.9923,
+      "pr_auc_std": 0.0015,
+      "roc_auc_mean": 0.9992,
+      "roc_auc_std": 0.0001,
+      "runtime_sec": 11.486
+    },
+    "Equal-Frequency (Quantile)": {
+      "pr_auc_mean": 0.9986,
+      "pr_auc_std": 0.0004,
+      "roc_auc_mean": 0.9998,
+      "roc_auc_std": 0.0001,
+      "runtime_sec": 13.145
+    },
+    "Supervised Entropy (MDLP)": {
+      "pr_auc_mean": 0.9921,
+      "pr_auc_std": 0.0017,
+      "roc_auc_mean": 0.9992,
+      "roc_auc_std": 0.0002,
+      "runtime_sec": 13.822
+    }
+  },
+  "missing_values": {
+    "Decision Tree": {
+      "sentinel_plus_flags": {
+        "pr_auc_mean": 0.9982,
+        "description": "Preserves distinct missingness distribution without numeric distortion"
+      },
+      "mean_imputation": {
+        "pr_auc_mean": 0.9982,
+        "description": "Blurs missingness into valid intermediate values"
+      }
+    },
+    "k-NN": {
+      "mean_imputation_plus_scaler": {
+        "pr_auc_mean": 0.9952,
+        "description": "Mean distance neutralizer with standard scaling"
+      },
+      "sentinel_plus_scaler": {
+        "pr_auc_mean": 0.9952,
+        "description": "Sentinel values mapped onto extreme scaled distances"
+      }
+    }
+  },
+  "progressive_sampling": {
+    "pre_registered_threshold": 0.005,
+    "converged_sample_size": 3250,
+    "learning_curve": [
+      {
+        "sample_size": 1625,
+        "pr_auc_mean": 0.9966,
+        "pr_auc_std": 0.0007,
+        "roc_auc_mean": 0.9997,
+        "gain_over_previous": 0.0,
+        "converged": false
+      },
+      {
+        "sample_size": 3250,
+        "pr_auc_mean": 0.9971,
+        "pr_auc_std": 0.0007,
+        "roc_auc_mean": 0.9996,
+        "gain_over_previous": 0.0006,
+        "converged": true
+      },
+      {
+        "sample_size": 6500,
+        "pr_auc_mean": 0.9963,
+        "pr_auc_std": 0.0012,
+        "roc_auc_mean": 0.9992,
+        "gain_over_previous": -0.0009,
+        "converged": true
+      },
+      {
+        "sample_size": 13000,
+        "pr_auc_mean": 0.9962,
+        "pr_auc_std": 0.0024,
+        "roc_auc_mean": 0.9992,
+        "gain_over_previous": -0.0001,
+        "converged": true
+      },
+      {
+        "sample_size": 26000,
+        "pr_auc_mean": 0.9974,
+        "pr_auc_std": 0.0008,
+        "roc_auc_mean": 0.9994,
+        "gain_over_previous": 0.0011,
+        "converged": true
+      },
+      {
+        "sample_size": 51984,
+        "pr_auc_mean": 0.9982,
+        "pr_auc_std": 0.0009,
+        "roc_auc_mean": 0.9995,
+        "gain_over_previous": 0.0009,
+        "converged": true
+      }
+    ]
+  },
+  "generated_figures": [
+    "C:\\Users\\ZUBAIR\\Desktop\\DM MID project\\reports\\figures\\rescaling_comparison.png",
+    "C:\\Users\\ZUBAIR\\Desktop\\DM MID project\\reports\\figures\\pca_variance_explained.png",
+    "C:\\Users\\ZUBAIR\\Desktop\\DM MID project\\reports\\figures\\pca_vs_selection.png",
+    "C:\\Users\\ZUBAIR\\Desktop\\DM MID project\\reports\\figures\\discretization_comparison.png",
+    "C:\\Users\\ZUBAIR\\Desktop\\DM MID project\\reports\\figures\\progressive_sampling_curve.png"
+  ]
+}

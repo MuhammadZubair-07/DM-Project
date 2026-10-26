@@ -1,0 +1,38 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Testing and coverage caches
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# IDE and OS generated files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Streamlit temporary / local files (secrets only, configs can remain if needed)
+.streamlit/secrets.toml
+
+# Scratch and temporary files
+scratch/
+*.tmp
+*.log
+
+# NOTE: Do NOT ignore data/ or models/ as required datasets and trained models must ship with the repo.

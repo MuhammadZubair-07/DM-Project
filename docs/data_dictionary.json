@@ -1,0 +1,175 @@
+{
+  "version": "1.0",
+  "description": "Complete data dictionary for DSC306 Project 11 Patient Record Deduplication",
+  "total_attributes": 21,
+  "attributes": {
+    "record_id": {
+      "meaning": "Unique synthetic alphanumeric record identifier (shuffled)",
+      "measurement_type": "Nominal",
+      "scale_property": "Discrete",
+      "plausible_range": "REC0000001 to REC0054373 (unique string per row)",
+      "role": "identifier",
+      "reasoning": "Only identity (=, !=) is defined. Order is purely arbitrary; arithmetic operations (addition, averaging) are meaningless. Never used as a predictive feature."
+    },
+    "source_system": {
+      "meaning": "Hospital department or legacy subsystem that created the record",
+      "measurement_type": "Nominal",
+      "scale_property": "Discrete",
+      "plausible_range": "{OPD, Lab, Radiology, Pharmacy, Emergency, Legacy}",
+      "role": "explanatory",
+      "reasoning": "Categorical department labels with no intrinsic hierarchy or numeric scale. Only equality/frequency tests are meaningful. Used cautiously due to potential sampling leakage (see docs/leakage_statement.md)."
+    },
+    "registration_date": {
+      "meaning": "Calendar date when the patient record was registered in the subsystem",
+      "measurement_type": "Interval",
+      "scale_property": "Discrete",
+      "plausible_range": "2015-01-01 to 2025-10-24 (ISO or raw legacy formats)",
+      "role": "temporal_split_key",
+      "reasoning": "Calendar time has an arbitrary zero point (Gregorian origin). Differences between dates (elapsed days) are physically meaningful, but ratios (e.g. 2020 / 1010) are meaningless. Used for temporal train/test split."
+    },
+    "first_name": {
+      "meaning": "Patient given / first name (Pakistani naming convention)",
+      "measurement_type": "Nominal",
+      "scale_property": "Discrete",
+      "plausible_range": "Common Pakistani given names and corrupted spelling variants",
+      "role": "explanatory",
+      "reasoning": "Text categorical string. Equality and string similarity (Levenshtein, Jaro-Winkler) are defined, but no natural order or arithmetic exists."
+    },
+    "family_name": {
+      "meaning": "Patient family name, tribe, caste, or surname",
+      "measurement_type": "Nominal",
+      "scale_property": "Discrete",
+      "plausible_range": "Common Pakistani family names (Khan, Ahmed, Ali, Malik, etc.)",
+      "role": "explanatory",
+      "reasoning": "Text categorical string. Nominal identity; used for blocking and similarity matching."
+    },
+    "father_name": {
+      "meaning": "Father or guardian's full name (critical patronymic identifier in Pakistan)",
+      "measurement_type": "Nominal",
+      "scale_property": "Discrete",
+      "plausible_range": "Text string, frequently omitted in Emergency registrations",
+      "role": "explanatory",
+      "reasoning": "Text categorical string. Equality and string similarity are meaningful; no ordering or arithmetic."
+    },
+    "gender": {
+      "meaning": "Administrative / biological gender code",
+      "measurement_type": "Nominal",
+      "scale_property": "Binary",
+      "plausible_range": "M, F (clean); {M, F, male, female, 1, 2, Ml, Fm} (dirty raw)",
+      "role": "explanatory",
+      "reasoning": "Conceptually symmetric binary (M/F), but raw data contains 14 dirty nominal encodings. No hierarchy or magnitude exists between categories."
+    },
+    "date_of_birth": {
+      "meaning": "Patient calendar birth date",
+      "measurement_type": "Interval",
+      "scale_property": "Discrete",
+      "plausible_range": "1925-01-01 to 2025-10-24 (plus sentinels such as 1900-01-01)",
+      "role": "explanatory",
+      "reasoning": "Calendar date on an interval scale. Differences measure elapsed age, but calendar year 0 is an arbitrary convention, making multiplication/ratio invalid."
+    },
+    "age_years": {
+      "meaning": "Chronological age in completed years at time of registration",
+      "measurement_type": "Ratio",
+      "scale_property": "Discrete",
+      "plausible_range": "0 to 110 (raw contains corrupt sentinels: -999, -1, 199, 999, 1823)",
+      "role": "explanatory",
+      "reasoning": "True absolute zero exists (age 0 = newborn, absence of elapsed life years). Ratios are physically valid: a person of 40 is twice as old as a person of 20."
+    },
+    "national_id": {
+      "meaning": "Synthetic 13-digit Pakistani CNIC number (5-digit area + 7-digit serial + 1 check)",
+      "measurement_type": "Nominal",
+      "scale_property": "Discrete",
+      "plausible_range": "13-digit numeric string (synthetic; never real citizen data)",
+      "role": "explanatory",
+      "reasoning": "Despite being composed of digits, national_id is NOMINAL. Digits serve purely as categorical labels. The leading digit represents province; adding two CNICs or calculating their average is completely nonsensical. Doubling a CNIC has no meaning."
+    },
+    "phone": {
+      "meaning": "Mobile contact phone number (Pakistani 11-digit mobile format: 03xxxxxxxxx)",
+      "measurement_type": "Nominal",
+      "scale_property": "Discrete",
+      "plausible_range": "11-digit string starting with 03 (plus formatting noise and sentinels)",
+      "role": "explanatory",
+      "reasoning": "Phone numbers are NOMINAL digit-strings. Leading '0' is syntactically mandatory and would be destroyed if treated as a numeric scalar. Arithmetic addition and scaling have zero physical meaning."
+    },
+    "city": {
+      "meaning": "Patient residential city in Pakistan",
+      "measurement_type": "Nominal",
+      "scale_property": "Discrete",
+      "plausible_range": "16 canonical cities plus noisy abbreviations (LHR, KHI, ISB, etc.)",
+      "role": "explanatory",
+      "reasoning": "Polytomous nominal categories representing geographic localities without ordering."
+    },
+    "address": {
+      "meaning": "Free-text street, house, sector, and area address line",
+      "measurement_type": "Nominal",
+      "scale_property": "Discrete",
+      "plausible_range": "Free-text address strings (House ..., Street ..., Area)",
+      "role": "explanatory",
+      "reasoning": "Unstructured text identifier with nominal properties. Evaluated via n-gram token overlap and edit distance rather than numeric arithmetic."
+    },
+    "blood_group": {
+      "meaning": "ABO and Rhesus blood antigen classification",
+      "measurement_type": "Nominal",
+      "scale_property": "Discrete",
+      "plausible_range": "{A+, A-, B+, B-, AB+, AB-, O+, O-}",
+      "role": "explanatory",
+      "reasoning": "Biological categories with no intrinsic mathematical ordering or magnitude."
+    },
+    "insurance_tier": {
+      "meaning": "Patient hospital coverage benefit tier",
+      "measurement_type": "Ordinal",
+      "scale_property": "Discrete",
+      "plausible_range": "None < Basic < Standard < Premium (with missingness from Lab)",
+      "role": "explanatory",
+      "reasoning": "Strictly ordered categories: None < Basic < Standard < Premium. Ranking is mathematically meaningful (<, >), but distance between levels is neither uniform nor measurable (Basic to Standard != Standard to Premium)."
+    },
+    "visit_count": {
+      "meaning": "Cumulative hospital outpatient or inpatient visit count",
+      "measurement_type": "Ratio",
+      "scale_property": "Discrete",
+      "plausible_range": "0 to 500 (raw contains corrupt sentinels: -999, 9999)",
+      "role": "explanatory",
+      "reasoning": "Count attribute with an absolute physical zero (0 visits = complete absence of encounters). Multiplicative ratios are valid: 10 visits is exactly twice as many encounters as 5 visits."
+    },
+    "true_entity_id": {
+      "meaning": "Ground truth person ID in data/truth/ground_truth.csv",
+      "measurement_type": "Nominal",
+      "scale_property": "Discrete",
+      "plausible_range": "ENT0000001 to ENT0046952",
+      "role": "must-not-use",
+      "reasoning": "Ground truth cluster oracle. Strictly forbidden during candidate generation, blocking, feature extraction, and inference. Used solely in offline evaluation."
+    },
+    "fault_type": {
+      "meaning": "Provenance log entry of synthetic error injection in data/truth/fault_log.csv",
+      "measurement_type": "Nominal",
+      "scale_property": "Discrete",
+      "plausible_range": "Categorical error types (typo, sentinel, swap, omission, etc.)",
+      "role": "must-not-use",
+      "reasoning": "Generator audit log. Revealing whether an attribute was corrupted is direct leakage."
+    },
+    "original_value": {
+      "meaning": "Pre-corruption canonical attribute value recorded in fault log",
+      "measurement_type": "Nominal",
+      "scale_property": "Discrete",
+      "plausible_range": "Original string/numeric value before synthetic noise injection",
+      "role": "must-not-use",
+      "reasoning": "Ground truth value; strictly forbidden."
+    },
+    "injected_value": {
+      "meaning": "Post-corruption noisy attribute value recorded in fault log",
+      "measurement_type": "Nominal",
+      "scale_property": "Discrete",
+      "plausible_range": "Injected corrupt string/numeric value",
+      "role": "must-not-use",
+      "reasoning": "Generator metadata; strictly forbidden."
+    },
+    "is_duplicate": {
+      "meaning": "Target pairwise matching label (1 = same true person, 0 = different people)",
+      "measurement_type": "Nominal",
+      "scale_property": "Binary",
+      "plausible_range": "{0, 1}",
+      "role": "target",
+      "reasoning": "Pair-level supervised target label. Highly asymmetric binary target (positives are rare). Never exists inside raw individual records."
+    }
+  }
+}

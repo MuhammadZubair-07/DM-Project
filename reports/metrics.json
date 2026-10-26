@@ -1,0 +1,1267 @@
+{
+  "phase_0_setup": {
+    "status": "complete",
+    "python_version": "3.12.10",
+    "tests_passed": 2,
+    "packages_pinned": 9
+  },
+  "generation": {
+    "seed": 42,
+    "total_records": 54373,
+    "total_entities": 46952,
+    "duplicate_entity_rate_config": 0.115,
+    "duplicate_rate_actual": 0.1365,
+    "n_true_duplicate_entities": 5493,
+    "total_true_duplicate_pairs": 9754,
+    "cluster_size_distribution": {
+      "1": 41459,
+      "2": 3970,
+      "3": 1118,
+      "4": 405
+    },
+    "hard_negatives": {
+      "sibling_pairs": 720,
+      "twin_pairs": 80,
+      "father_son_pairs": 300,
+      "household_pairs": 500,
+      "common_name_entities": 600
+    },
+    "all_pairs_count": 1478184378,
+    "per_column_missing_rate": {
+      "record_id": 0.0,
+      "source_system": 0.0,
+      "registration_date": 0.0,
+      "first_name": 0.0,
+      "family_name": 0.0,
+      "father_name": 0.0926,
+      "gender": 0.0,
+      "date_of_birth": 0.009,
+      "age_years": 0.0,
+      "national_id": 0.0753,
+      "phone": 0.0576,
+      "city": 0.0,
+      "address": 0.0,
+      "blood_group": 0.0891,
+      "insurance_tier": 0.1024,
+      "visit_count": 0.0
+    },
+    "trivial_rule_same_dob_and_phone": {
+      "candidates": 1598,
+      "true_pairs_found": 1533,
+      "precision": 0.9593,
+      "recall": 0.1572,
+      "note": "A recall near 1.0 means corruption is too easy; a recall near 0.0 means blocking may miss many true pairs. Actual recall=0.157 — see generation_mechanism.md."
+    },
+    "source_system_distribution": {
+      "OPD": 19076,
+      "Lab": 11012,
+      "Radiology": 8021,
+      "Pharmacy": 8134,
+      "Emergency": 5468,
+      "Legacy": 2662
+    }
+  },
+  "profile": {
+    "shape": [
+      54373,
+      16
+    ],
+    "total_records": 54373,
+    "total_columns": 16,
+    "measurement_types_present": {
+      "Nominal": 11,
+      "Ordinal": 1,
+      "Interval": 2,
+      "Ratio": 2
+    },
+    "scale_properties_present": {
+      "Discrete": 15,
+      "Continuous": 0,
+      "Binary": 1
+    },
+    "columns": {
+      "record_id": {
+        "column_name": "record_id",
+        "pandas_dtype": "str",
+        "meaning": "Unique synthetic alphanumeric record identifier (shuffled)",
+        "measurement_type": "Nominal",
+        "scale_property": "Discrete",
+        "role": "identifier",
+        "plausible_range": "REC0000001 to REC0054373 (unique string per row)",
+        "total_rows": 54373,
+        "non_null_count": 54373,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "missing_percentage": 0.0,
+        "unique_count": 54373,
+        "min_value": "REC0000001",
+        "max_value": "REC0054373",
+        "sentinel_count": 0,
+        "top_values": [
+          {
+            "value": "REC0050538",
+            "count": 1,
+            "percentage": 0.0
+          },
+          {
+            "value": "REC0007621",
+            "count": 1,
+            "percentage": 0.0
+          },
+          {
+            "value": "REC0032023",
+            "count": 1,
+            "percentage": 0.0
+          },
+          {
+            "value": "REC0011010",
+            "count": 1,
+            "percentage": 0.0
+          },
+          {
+            "value": "REC0044827",
+            "count": 1,
+            "percentage": 0.0
+          }
+        ],
+        "lecture_reasoning": "Only identity (=, !=) is defined. Order is purely arbitrary; arithmetic operations (addition, averaging) are meaningless. Never used as a predictive feature."
+      },
+      "source_system": {
+        "column_name": "source_system",
+        "pandas_dtype": "str",
+        "meaning": "Hospital department or legacy subsystem that created the record",
+        "measurement_type": "Nominal",
+        "scale_property": "Discrete",
+        "role": "explanatory",
+        "plausible_range": "{OPD, Lab, Radiology, Pharmacy, Emergency, Legacy}",
+        "total_rows": 54373,
+        "non_null_count": 54373,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "missing_percentage": 0.0,
+        "unique_count": 6,
+        "min_value": "Emergency",
+        "max_value": "Radiology",
+        "sentinel_count": 0,
+        "top_values": [
+          {
+            "value": "OPD",
+            "count": 19076,
+            "percentage": 35.08
+          },
+          {
+            "value": "Lab",
+            "count": 11012,
+            "percentage": 20.25
+          },
+          {
+            "value": "Pharmacy",
+            "count": 8134,
+            "percentage": 14.96
+          },
+          {
+            "value": "Radiology",
+            "count": 8021,
+            "percentage": 14.75
+          },
+          {
+            "value": "Emergency",
+            "count": 5468,
+            "percentage": 10.06
+          }
+        ],
+        "lecture_reasoning": "Categorical department labels with no intrinsic hierarchy or numeric scale. Only equality/frequency tests are meaningful. Used cautiously due to potential sampling leakage (see docs/leakage_statement.md)."
+      },
+      "registration_date": {
+        "column_name": "registration_date",
+        "pandas_dtype": "str",
+        "meaning": "Calendar date when the patient record was registered in the subsystem",
+        "measurement_type": "Interval",
+        "scale_property": "Discrete",
+        "role": "temporal_split_key",
+        "plausible_range": "2015-01-01 to 2025-10-24 (ISO or raw legacy formats)",
+        "total_rows": 54373,
+        "non_null_count": 54373,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "missing_percentage": 0.0,
+        "unique_count": 3950,
+        "min_value": "2015-01-01",
+        "max_value": "2025-10-24",
+        "sentinel_count": 0,
+        "top_values": [
+          {
+            "value": "2023-06-21",
+            "count": 29,
+            "percentage": 0.05
+          },
+          {
+            "value": "2017-10-24",
+            "count": 29,
+            "percentage": 0.05
+          },
+          {
+            "value": "2021-12-02",
+            "count": 27,
+            "percentage": 0.05
+          },
+          {
+            "value": "2019-11-05",
+            "count": 26,
+            "percentage": 0.05
+          },
+          {
+            "value": "2020-10-22",
+            "count": 26,
+            "percentage": 0.05
+          }
+        ],
+        "lecture_reasoning": "Calendar time has an arbitrary zero point (Gregorian origin). Differences between dates (elapsed days) are physically meaningful, but ratios (e.g. 2020 / 1010) are meaningless. Used for temporal train/test split."
+      },
+      "first_name": {
+        "column_name": "first_name",
+        "pandas_dtype": "str",
+        "meaning": "Patient given / first name (Pakistani naming convention)",
+        "measurement_type": "Nominal",
+        "scale_property": "Discrete",
+        "role": "explanatory",
+        "plausible_range": "Common Pakistani given names and corrupted spelling variants",
+        "total_rows": 54373,
+        "non_null_count": 54373,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "missing_percentage": 0.0,
+        "unique_count": 2675,
+        "min_value": "A.",
+        "max_value": "zubair",
+        "sentinel_count": 0,
+        "top_values": [
+          {
+            "value": "Muhammad",
+            "count": 2569,
+            "percentage": 4.72
+          },
+          {
+            "value": "Fatima",
+            "count": 2029,
+            "percentage": 3.73
+          },
+          {
+            "value": "Ayesha",
+            "count": 1788,
+            "percentage": 3.29
+          },
+          {
+            "value": "Ali",
+            "count": 1443,
+            "percentage": 2.65
+          },
+          {
+            "value": "Ahmed",
+            "count": 1292,
+            "percentage": 2.38
+          }
+        ],
+        "lecture_reasoning": "Text categorical string. Equality and string similarity (Levenshtein, Jaro-Winkler) are defined, but no natural order or arithmetic exists."
+      },
+      "family_name": {
+        "column_name": "family_name",
+        "pandas_dtype": "str",
+        "meaning": "Patient family name, tribe, caste, or surname",
+        "measurement_type": "Nominal",
+        "scale_property": "Discrete",
+        "role": "explanatory",
+        "plausible_range": "Common Pakistani family names (Khan, Ahmed, Ali, Malik, etc.)",
+        "total_rows": 54373,
+        "non_null_count": 54373,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "missing_percentage": 0.0,
+        "unique_count": 1452,
+        "min_value": ".",
+        "max_value": "Zuunaid",
+        "sentinel_count": 0,
+        "top_values": [
+          {
+            "value": "Khan",
+            "count": 4964,
+            "percentage": 9.13
+          },
+          {
+            "value": "Ahmed",
+            "count": 4101,
+            "percentage": 7.54
+          },
+          {
+            "value": "Ali",
+            "count": 3326,
+            "percentage": 6.12
+          },
+          {
+            "value": "Hassan",
+            "count": 2270,
+            "percentage": 4.17
+          },
+          {
+            "value": "Malik",
+            "count": 2097,
+            "percentage": 3.86
+          }
+        ],
+        "lecture_reasoning": "Text categorical string. Nominal identity; used for blocking and similarity matching."
+      },
+      "father_name": {
+        "column_name": "father_name",
+        "pandas_dtype": "str",
+        "meaning": "Father or guardian's full name (critical patronymic identifier in Pakistan)",
+        "measurement_type": "Nominal",
+        "scale_property": "Discrete",
+        "role": "explanatory",
+        "plausible_range": "Text string, frequently omitted in Emergency registrations",
+        "total_rows": 54373,
+        "non_null_count": 49338,
+        "missing_count": 5035,
+        "missing_rate": 0.0926,
+        "missing_percentage": 9.26,
+        "unique_count": 2428,
+        "min_value": "Abid Abbasi",
+        "max_value": "Zubair Zaman",
+        "sentinel_count": 0,
+        "top_values": [
+          {
+            "value": "Muhammad Khan",
+            "count": 448,
+            "percentage": 0.82
+          },
+          {
+            "value": "Muhammad Ahmed",
+            "count": 329,
+            "percentage": 0.61
+          },
+          {
+            "value": "Muhammad Ali",
+            "count": 305,
+            "percentage": 0.56
+          },
+          {
+            "value": "Ali Khan",
+            "count": 257,
+            "percentage": 0.47
+          },
+          {
+            "value": "Ahmed Khan",
+            "count": 228,
+            "percentage": 0.42
+          }
+        ],
+        "lecture_reasoning": "Text categorical string. Equality and string similarity are meaningful; no ordering or arithmetic."
+      },
+      "gender": {
+        "column_name": "gender",
+        "pandas_dtype": "str",
+        "meaning": "Administrative / biological gender code",
+        "measurement_type": "Nominal",
+        "scale_property": "Binary",
+        "role": "explanatory",
+        "plausible_range": "M, F (clean); {M, F, male, female, 1, 2, Ml, Fm} (dirty raw)",
+        "total_rows": 54373,
+        "non_null_count": 54373,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "missing_percentage": 0.0,
+        "unique_count": 14,
+        "min_value": "1",
+        "max_value": "male",
+        "sentinel_count": 0,
+        "top_values": [
+          {
+            "value": "M",
+            "count": 26924,
+            "percentage": 49.52
+          },
+          {
+            "value": "F",
+            "count": 26039,
+            "percentage": 47.89
+          },
+          {
+            "value": "female",
+            "count": 142,
+            "percentage": 0.26
+          },
+          {
+            "value": "1",
+            "count": 129,
+            "percentage": 0.24
+          },
+          {
+            "value": "male",
+            "count": 128,
+            "percentage": 0.24
+          }
+        ],
+        "lecture_reasoning": "Conceptually symmetric binary (M/F), but raw data contains 14 dirty nominal encodings. No hierarchy or magnitude exists between categories."
+      },
+      "date_of_birth": {
+        "column_name": "date_of_birth",
+        "pandas_dtype": "str",
+        "meaning": "Patient calendar birth date",
+        "measurement_type": "Interval",
+        "scale_property": "Discrete",
+        "role": "explanatory",
+        "plausible_range": "1925-01-01 to 2025-10-24 (plus sentinels such as 1900-01-01)",
+        "total_rows": 54373,
+        "non_null_count": 53881,
+        "missing_count": 492,
+        "missing_rate": 0.009,
+        "missing_percentage": 0.9,
+        "unique_count": 36772,
+        "min_value": "01-01-1947",
+        "max_value": "9198-05-18",
+        "sentinel_count": 394,
+        "top_values": [
+          {
+            "value": "1900-01-01",
+            "count": 392,
+            "percentage": 0.72
+          },
+          {
+            "value": "2025-01-01",
+            "count": 100,
+            "percentage": 0.18
+          },
+          {
+            "value": "01-01-2025",
+            "count": 21,
+            "percentage": 0.04
+          },
+          {
+            "value": "01/01/2025",
+            "count": 13,
+            "percentage": 0.02
+          },
+          {
+            "value": "1959-11-02",
+            "count": 12,
+            "percentage": 0.02
+          }
+        ],
+        "lecture_reasoning": "Calendar date on an interval scale. Differences measure elapsed age, but calendar year 0 is an arbitrary convention, making multiplication/ratio invalid."
+      },
+      "age_years": {
+        "column_name": "age_years",
+        "pandas_dtype": "str",
+        "meaning": "Chronological age in completed years at time of registration",
+        "measurement_type": "Ratio",
+        "scale_property": "Discrete",
+        "role": "explanatory",
+        "plausible_range": "0 to 110 (raw contains corrupt sentinels: -999, -1, 199, 999, 1823)",
+        "total_rows": 54373,
+        "non_null_count": 54373,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "missing_percentage": 0.0,
+        "unique_count": 207,
+        "min_value": -999.0,
+        "max_value": 1823.0,
+        "sentinel_count": 467,
+        "top_values": [
+          {
+            "value": "0",
+            "count": 4107,
+            "percentage": 7.55
+          },
+          {
+            "value": "67",
+            "count": 646,
+            "percentage": 1.19
+          },
+          {
+            "value": "62",
+            "count": 646,
+            "percentage": 1.19
+          },
+          {
+            "value": "19",
+            "count": 644,
+            "percentage": 1.18
+          },
+          {
+            "value": "41",
+            "count": 639,
+            "percentage": 1.18
+          }
+        ],
+        "lecture_reasoning": "True absolute zero exists (age 0 = newborn, absence of elapsed life years). Ratios are physically valid: a person of 40 is twice as old as a person of 20."
+      },
+      "national_id": {
+        "column_name": "national_id",
+        "pandas_dtype": "str",
+        "meaning": "Synthetic 13-digit Pakistani CNIC number (5-digit area + 7-digit serial + 1 check)",
+        "measurement_type": "Nominal",
+        "scale_property": "Discrete",
+        "role": "explanatory",
+        "plausible_range": "13-digit numeric string (synthetic; never real citizen data)",
+        "total_rows": 54373,
+        "non_null_count": 50278,
+        "missing_count": 4095,
+        "missing_rate": 0.0753,
+        "missing_percentage": 7.53,
+        "unique_count": 44574,
+        "min_value": "0456730221122",
+        "max_value": "9561891294207",
+        "sentinel_count": 0,
+        "top_values": [
+          {
+            "value": "2987556464529",
+            "count": 4,
+            "percentage": 0.01
+          },
+          {
+            "value": "6298152799527",
+            "count": 4,
+            "percentage": 0.01
+          },
+          {
+            "value": "2786735079129",
+            "count": 4,
+            "percentage": 0.01
+          },
+          {
+            "value": "4423271769648",
+            "count": 4,
+            "percentage": 0.01
+          },
+          {
+            "value": "2567318118280",
+            "count": 4,
+            "percentage": 0.01
+          }
+        ],
+        "lecture_reasoning": "Despite being composed of digits, national_id is NOMINAL. Digits serve purely as categorical labels. The leading digit represents province; adding two CNICs or calculating their average is completely nonsensical. Doubling a CNIC has no meaning."
+      },
+      "phone": {
+        "column_name": "phone",
+        "pandas_dtype": "str",
+        "meaning": "Mobile contact phone number (Pakistani 11-digit mobile format: 03xxxxxxxxx)",
+        "measurement_type": "Nominal",
+        "scale_property": "Discrete",
+        "role": "explanatory",
+        "plausible_range": "11-digit string starting with 03 (plus formatting noise and sentinels)",
+        "total_rows": 54373,
+        "non_null_count": 51242,
+        "missing_count": 3131,
+        "missing_rate": 0.0576,
+        "missing_percentage": 5.76,
+        "unique_count": 46072,
+        "min_value": "+923001840131",
+        "max_value": "03961720762",
+        "sentinel_count": 183,
+        "top_values": [
+          {
+            "value": "00000000000",
+            "count": 183,
+            "percentage": 0.34
+          },
+          {
+            "value": "03260879091",
+            "count": 4,
+            "percentage": 0.01
+          },
+          {
+            "value": "03368145128",
+            "count": 4,
+            "percentage": 0.01
+          },
+          {
+            "value": "03011968920",
+            "count": 4,
+            "percentage": 0.01
+          },
+          {
+            "value": "03088471125",
+            "count": 4,
+            "percentage": 0.01
+          }
+        ],
+        "lecture_reasoning": "Phone numbers are NOMINAL digit-strings. Leading '0' is syntactically mandatory and would be destroyed if treated as a numeric scalar. Arithmetic addition and scaling have zero physical meaning."
+      },
+      "city": {
+        "column_name": "city",
+        "pandas_dtype": "str",
+        "meaning": "Patient residential city in Pakistan",
+        "measurement_type": "Nominal",
+        "scale_property": "Discrete",
+        "role": "explanatory",
+        "plausible_range": "16 canonical cities plus noisy abbreviations (LHR, KHI, ISB, etc.)",
+        "total_rows": 54373,
+        "non_null_count": 54373,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "missing_percentage": 0.0,
+        "unique_count": 69,
+        "min_value": "BWP",
+        "max_value": "sukkur",
+        "sentinel_count": 0,
+        "top_values": [
+          {
+            "value": "Lahore",
+            "count": 8258,
+            "percentage": 15.19
+          },
+          {
+            "value": "Karachi",
+            "count": 7122,
+            "percentage": 13.1
+          },
+          {
+            "value": "Islamabad",
+            "count": 5822,
+            "percentage": 10.71
+          },
+          {
+            "value": "Rawalpindi",
+            "count": 4890,
+            "percentage": 8.99
+          },
+          {
+            "value": "Faisalabad",
+            "count": 4323,
+            "percentage": 7.95
+          }
+        ],
+        "lecture_reasoning": "Polytomous nominal categories representing geographic localities without ordering."
+      },
+      "address": {
+        "column_name": "address",
+        "pandas_dtype": "str",
+        "meaning": "Free-text street, house, sector, and area address line",
+        "measurement_type": "Nominal",
+        "scale_property": "Discrete",
+        "role": "explanatory",
+        "plausible_range": "Free-text address strings (House ..., Street ..., Area)",
+        "total_rows": 54373,
+        "non_null_count": 54373,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "missing_percentage": 0.0,
+        "unique_count": 47061,
+        "min_value": "House 1, St 41 Road, Cantt, Islamabad",
+        "max_value": "House 999, Street 8 St, Johar Town, Karachi",
+        "sentinel_count": 0,
+        "top_values": [
+          {
+            "value": "House 440, Street 33 Road, Clifton, Lahore",
+            "count": 4,
+            "percentage": 0.01
+          },
+          {
+            "value": "House 730, Street 7 Avenue, Westridge, Islamabad",
+            "count": 4,
+            "percentage": 0.01
+          },
+          {
+            "value": "House 526, Street 49 Rd, Allama Iqbal Town, Hyderabad",
+            "count": 4,
+            "percentage": 0.01
+          },
+          {
+            "value": "House 345, Street 5 Street, Clifton, Gujranwala",
+            "count": 4,
+            "percentage": 0.01
+          },
+          {
+            "value": "House 851, Street 21 Road, Bahria Town, Karachi",
+            "count": 4,
+            "percentage": 0.01
+          }
+        ],
+        "lecture_reasoning": "Unstructured text identifier with nominal properties. Evaluated via n-gram token overlap and edit distance rather than numeric arithmetic."
+      },
+      "blood_group": {
+        "column_name": "blood_group",
+        "pandas_dtype": "str",
+        "meaning": "ABO and Rhesus blood antigen classification",
+        "measurement_type": "Nominal",
+        "scale_property": "Discrete",
+        "role": "explanatory",
+        "plausible_range": "{A+, A-, B+, B-, AB+, AB-, O+, O-}",
+        "total_rows": 54373,
+        "non_null_count": 49529,
+        "missing_count": 4844,
+        "missing_rate": 0.0891,
+        "missing_percentage": 8.91,
+        "unique_count": 8,
+        "min_value": "A+",
+        "max_value": "O-",
+        "sentinel_count": 0,
+        "top_values": [
+          {
+            "value": "B+",
+            "count": 6327,
+            "percentage": 11.64
+          },
+          {
+            "value": "AB+",
+            "count": 6325,
+            "percentage": 11.63
+          },
+          {
+            "value": "O-",
+            "count": 6245,
+            "percentage": 11.49
+          },
+          {
+            "value": "A-",
+            "count": 6231,
+            "percentage": 11.46
+          },
+          {
+            "value": "AB-",
+            "count": 6154,
+            "percentage": 11.32
+          }
+        ],
+        "lecture_reasoning": "Biological categories with no intrinsic mathematical ordering or magnitude."
+      },
+      "insurance_tier": {
+        "column_name": "insurance_tier",
+        "pandas_dtype": "str",
+        "meaning": "Patient hospital coverage benefit tier",
+        "measurement_type": "Ordinal",
+        "scale_property": "Discrete",
+        "role": "explanatory",
+        "plausible_range": "None < Basic < Standard < Premium (with missingness from Lab)",
+        "total_rows": 54373,
+        "non_null_count": 48807,
+        "missing_count": 5566,
+        "missing_rate": 0.1024,
+        "missing_percentage": 10.24,
+        "unique_count": 4,
+        "min_value": "Basic",
+        "max_value": "Standard",
+        "sentinel_count": 0,
+        "top_values": [
+          {
+            "value": "None",
+            "count": 19357,
+            "percentage": 35.6
+          },
+          {
+            "value": "Basic",
+            "count": 14659,
+            "percentage": 26.96
+          },
+          {
+            "value": "Standard",
+            "count": 9832,
+            "percentage": 18.08
+          },
+          {
+            "value": "Premium",
+            "count": 4959,
+            "percentage": 9.12
+          }
+        ],
+        "lecture_reasoning": "Strictly ordered categories: None < Basic < Standard < Premium. Ranking is mathematically meaningful (<, >), but distance between levels is neither uniform nor measurable (Basic to Standard != Standard to Premium)."
+      },
+      "visit_count": {
+        "column_name": "visit_count",
+        "pandas_dtype": "str",
+        "meaning": "Cumulative hospital outpatient or inpatient visit count",
+        "measurement_type": "Ratio",
+        "scale_property": "Discrete",
+        "role": "explanatory",
+        "plausible_range": "0 to 500 (raw contains corrupt sentinels: -999, 9999)",
+        "total_rows": 54373,
+        "non_null_count": 54373,
+        "missing_count": 0,
+        "missing_rate": 0.0,
+        "missing_percentage": 0.0,
+        "unique_count": 54,
+        "min_value": -999.0,
+        "max_value": 9999.0,
+        "sentinel_count": 315,
+        "top_values": [
+          {
+            "value": "44",
+            "count": 1150,
+            "percentage": 2.12
+          },
+          {
+            "value": "5",
+            "count": 1123,
+            "percentage": 2.07
+          },
+          {
+            "value": "11",
+            "count": 1117,
+            "percentage": 2.05
+          },
+          {
+            "value": "9",
+            "count": 1116,
+            "percentage": 2.05
+          },
+          {
+            "value": "23",
+            "count": 1115,
+            "percentage": 2.05
+          }
+        ],
+        "lecture_reasoning": "Count attribute with an absolute physical zero (0 visits = complete absence of encounters). Multiplicative ratios are valid: 10 visits is exactly twice as many encounters as 5 visits."
+      }
+    },
+    "categorical_breakdowns": {
+      "source_system": {
+        "OPD": {
+          "count": 19076,
+          "percentage": 35.08
+        },
+        "Lab": {
+          "count": 11012,
+          "percentage": 20.25
+        },
+        "Pharmacy": {
+          "count": 8134,
+          "percentage": 14.96
+        },
+        "Radiology": {
+          "count": 8021,
+          "percentage": 14.75
+        },
+        "Emergency": {
+          "count": 5468,
+          "percentage": 10.06
+        },
+        "Legacy": {
+          "count": 2662,
+          "percentage": 4.9
+        }
+      },
+      "gender": {
+        "M": {
+          "count": 26924,
+          "percentage": 49.52
+        },
+        "F": {
+          "count": 26039,
+          "percentage": 47.89
+        },
+        "female": {
+          "count": 142,
+          "percentage": 0.26
+        },
+        "1": {
+          "count": 129,
+          "percentage": 0.24
+        },
+        "male": {
+          "count": 128,
+          "percentage": 0.24
+        },
+        "2": {
+          "count": 124,
+          "percentage": 0.23
+        },
+        "Male": {
+          "count": 123,
+          "percentage": 0.23
+        },
+        "Fm": {
+          "count": 118,
+          "percentage": 0.22
+        },
+        "f": {
+          "count": 115,
+          "percentage": 0.21
+        },
+        "m": {
+          "count": 109,
+          "percentage": 0.2
+        },
+        "Female": {
+          "count": 107,
+          "percentage": 0.2
+        },
+        "Ml": {
+          "count": 107,
+          "percentage": 0.2
+        },
+        "FEMALE": {
+          "count": 106,
+          "percentage": 0.19
+        },
+        "MALE": {
+          "count": 102,
+          "percentage": 0.19
+        }
+      },
+      "insurance_tier": {
+        "None": {
+          "count": 19357,
+          "percentage": 35.6
+        },
+        "Basic": {
+          "count": 14659,
+          "percentage": 26.96
+        },
+        "Standard": {
+          "count": 9832,
+          "percentage": 18.08
+        },
+        "(missing/empty)": {
+          "count": 5566,
+          "percentage": 10.24
+        },
+        "Premium": {
+          "count": 4959,
+          "percentage": 9.12
+        }
+      },
+      "blood_group": {
+        "B+": {
+          "count": 6327,
+          "percentage": 11.64
+        },
+        "AB+": {
+          "count": 6325,
+          "percentage": 11.63
+        },
+        "O-": {
+          "count": 6245,
+          "percentage": 11.49
+        },
+        "A-": {
+          "count": 6231,
+          "percentage": 11.46
+        },
+        "AB-": {
+          "count": 6154,
+          "percentage": 11.32
+        },
+        "A+": {
+          "count": 6091,
+          "percentage": 11.2
+        },
+        "O+": {
+          "count": 6090,
+          "percentage": 11.2
+        },
+        "B-": {
+          "count": 6066,
+          "percentage": 11.16
+        },
+        "(missing/empty)": {
+          "count": 4844,
+          "percentage": 8.91
+        }
+      }
+    },
+    "numeric_summaries": {
+      "age_years": {
+        "count": 54373,
+        "mean": 41.72,
+        "std": 78.95,
+        "min": -999.0,
+        "p25": 16.0,
+        "median": 39.0,
+        "p75": 62.0,
+        "max": 1823.0,
+        "negative_count": 146,
+        "outlier_extreme_count": 321
+      },
+      "visit_count": {
+        "count": 54373,
+        "mean": 40.58,
+        "std": 423.73,
+        "min": -999.0,
+        "p25": 12.0,
+        "median": 25.0,
+        "p75": 38.0,
+        "max": 9999.0,
+        "negative_count": 218,
+        "outlier_extreme_count": 97
+      }
+    }
+  },
+  "audit": {
+    "faults_detected_count": 24,
+    "total_affected_counts": {
+      "F1.1": 0,
+      "F2.1": 2324,
+      "F2.2": 1410,
+      "F2.3": 17932,
+      "F2.4": 1642,
+      "F2.5": 2213,
+      "F3.1": 394,
+      "F3.2": 300,
+      "F3.3": 183,
+      "F3.4": 218,
+      "F4.1": 3446,
+      "F4.2": 181,
+      "F4.3": 2352,
+      "F4.4": 0,
+      "F5.father_name": 5035,
+      "F5.national_id": 4095,
+      "F5.phone": 3131,
+      "F5.date_of_birth": 492,
+      "F5.blood_group": 4844,
+      "F5.insurance_tier": 5566,
+      "F6.1": 4632,
+      "F7.1": 97,
+      "F8.1": 2662,
+      "F8.2": 3858
+    },
+    "chi2_missingness_significant_columns": [
+      "national_id",
+      "father_name",
+      "phone",
+      "insurance_tier"
+    ],
+    "detector_evaluations": {
+      "city_alias": {
+        "ground_truth_faults": 2324,
+        "detected_faults": 2324,
+        "true_positives": 2324,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "gender_dirty": {
+        "ground_truth_faults": 1410,
+        "detected_faults": 1410,
+        "true_positives": 1410,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "sentinel_dob": {
+        "ground_truth_faults": 392,
+        "detected_faults": 394,
+        "true_positives": 392,
+        "precision": 0.9949,
+        "recall": 1.0
+      },
+      "name_typos": {
+        "ground_truth_faults": 3563,
+        "detected_faults": 4632,
+        "true_positives": 3555,
+        "precision": 0.7675,
+        "recall": 0.9978
+      }
+    }
+  },
+  "cleaning": {
+    "total_records_cleaned": 54373,
+    "total_columns_in_clean_frame": 44,
+    "repairs_summary": {
+      "Distinct city values": {
+        "repair_item": "Distinct city values",
+        "metric_description": "Total unique city strings in column",
+        "before": 69,
+        "after": 15,
+        "change": -54
+      },
+      "Non-canonical city records": {
+        "repair_item": "Non-canonical city records",
+        "metric_description": "Records with city aliases or noisy abbreviations",
+        "before": 2324,
+        "after": 0,
+        "change": -2324
+      },
+      "Distinct gender values": {
+        "repair_item": "Distinct gender values",
+        "metric_description": "Total unique gender strings in column",
+        "before": 14,
+        "after": 2,
+        "change": -12
+      },
+      "Dirty gender encodings": {
+        "repair_item": "Dirty gender encodings",
+        "metric_description": "Records with non-canonical gender tokens (male, 1, Ml, etc.)",
+        "before": 1410,
+        "after": 0,
+        "change": -1410
+      },
+      "Non-ISO birth date formats": {
+        "repair_item": "Non-ISO birth date formats",
+        "metric_description": "DOB strings not formatted as standard YYYY-MM-DD",
+        "before": 17932,
+        "after": 0,
+        "change": -17932
+      },
+      "DOB sentinel values (1900-01-01)": {
+        "repair_item": "DOB sentinel values (1900-01-01)",
+        "metric_description": "Default legacy sentinel birth dates",
+        "before": 394,
+        "after": 2,
+        "change": -394
+      },
+      "Chronologically invalid DOB (> reg_date)": {
+        "repair_item": "Chronologically invalid DOB (> reg_date)",
+        "metric_description": "Birth date occurring after registration date",
+        "before": 3446,
+        "after": 0,
+        "change": -3446
+      },
+      "Phone sentinel values (00000000000)": {
+        "repair_item": "Phone sentinel values (00000000000)",
+        "metric_description": "Dummy placeholder phone numbers",
+        "before": 183,
+        "after": 0,
+        "change": -183
+      },
+      "Non-standard phone format": {
+        "repair_item": "Non-standard phone format",
+        "metric_description": "Phone numbers not formatted as 11-digit 03xxxxxxxxx",
+        "before": 1642,
+        "after": 0,
+        "change": -1642
+      },
+      "Age sentinel values (-999, -1, 999)": {
+        "repair_item": "Age sentinel values (-999, -1, 999)",
+        "metric_description": "Sentinel values representing unrecorded age",
+        "before": 300,
+        "after": 0,
+        "change": -300
+      },
+      "Impossible age values (<0 or >110)": {
+        "repair_item": "Impossible age values (<0 or >110)",
+        "metric_description": "Ages outside biological human lifespan",
+        "before": 481,
+        "after": 0,
+        "change": -481
+      },
+      "Age vs DOB inconsistency (> 2 years)": {
+        "repair_item": "Age vs DOB inconsistency (> 2 years)",
+        "metric_description": "Discrepancy between age_years and registration_date - DOB",
+        "before": 2352,
+        "after": 0,
+        "change": -2352
+      },
+      "Name whitespace & casing irregularities": {
+        "repair_item": "Name whitespace & casing irregularities",
+        "metric_description": "Untrimmed spaces, multiple spaces, or non-Titlecase in names",
+        "before": 2202,
+        "after": 0,
+        "change": -2202
+      },
+      "Extreme visit count outliers (9999)": {
+        "repair_item": "Extreme visit count outliers (9999)",
+        "metric_description": "Visit counts far above plausible maximum (capped at 100)",
+        "before": 97,
+        "after": 0,
+        "change": -97
+      },
+      "Visit count sentinel values (-999, -1)": {
+        "repair_item": "Visit count sentinel values (-999, -1)",
+        "metric_description": "Negative placeholder encounter numbers",
+        "before": 218,
+        "after": 0,
+        "change": -218
+      }
+    }
+  },
+  "blocking": {
+    "all_pairs_count": 1478184378,
+    "union_candidate_pairs": 823534,
+    "reduction_ratio_pct": 99.944287,
+    "pairs_completeness_pct": 94.48,
+    "pairs_quality_pct": 1.12,
+    "missed_true_pairs_count": 538,
+    "target_completeness_met": true,
+    "runtime_seconds": 1.442
+  },
+  "split": {
+    "cutoff_date": "2022-04-15",
+    "total_entities": 46952,
+    "train_entities": 32871,
+    "test_entities": 14081,
+    "train_entity_pct": 70.01,
+    "test_entity_pct": 29.99,
+    "total_records": 54373,
+    "train_records": 39762,
+    "test_records": 14611,
+    "train_record_pct": 73.13,
+    "test_record_pct": 26.87,
+    "split_meta_path": "C:\\Users\\ZUBAIR\\Desktop\\DM MID project\\data\\pairs\\entity_splits.json"
+  },
+  "pairs": {
+    "train_natural_pairs": 475790,
+    "train_natural_positives": 8664,
+    "train_natural_negatives": 467126,
+    "train_natural_prevalence_pct": 1.821,
+    "train_resampled_pairs": 51984,
+    "train_resampled_positives": 8664,
+    "train_resampled_negatives": 43320,
+    "train_resampled_prevalence_pct": 16.6667,
+    "resample_weights": {
+      "w_positive": 1.0,
+      "w_negative": 10.783149,
+      "negative_to_positive_ratio": 5.0
+    },
+    "test_natural_pairs": 106298,
+    "test_natural_positives": 570,
+    "test_natural_negatives": 105728,
+    "test_natural_prevalence_pct": 0.5362,
+    "file_paths": {
+      "train_natural": "C:\\Users\\ZUBAIR\\Desktop\\DM MID project\\data\\pairs\\train_pairs_natural.parquet",
+      "train_resampled": "C:\\Users\\ZUBAIR\\Desktop\\DM MID project\\data\\pairs\\train_pairs_resampled.parquet",
+      "test_natural": "C:\\Users\\ZUBAIR\\Desktop\\DM MID project\\data\\pairs\\test_pairs.parquet"
+    }
+  },
+  "preprocessing": {
+    "rescaling_knn_gain": 0.0036,
+    "rescaling_tree_gain": 0.0,
+    "pca_variance_80_components": 13,
+    "chosen_reduction_strategy": "Feature Selection (Filter + Greedy)",
+    "chosen_discretizer": "Supervised Entropy (MDLP)",
+    "progressive_sampling_converged_size": 3250
+  },
+  "models": {
+    "tree_pr_auc": 0.998601,
+    "nb_pr_auc": 0.996167,
+    "knn_pr_auc": 0.996809,
+    "mlp_pr_auc": 0.998005,
+    "tree_params": {
+      "criterion": "gini",
+      "max_depth": 5,
+      "min_samples_leaf": 10,
+      "ccp_alpha": 0.0
+    },
+    "nb_params": {
+      "alpha": 1.0,
+      "n_bins": 5,
+      "bin_scheme": "quantile"
+    },
+    "knn_params": {
+      "n_neighbors": 15,
+      "metric": "euclidean",
+      "weights": "uniform"
+    },
+    "mlp_params": {
+      "hidden_layer_sizes": [
+        16,
+        8
+      ],
+      "alpha": 0.01
+    },
+    "data_hash": "661c9cefde87a4a469a05a9d62728c1b102069b31cd3092cc5b24d8ff841269d"
+  },
+  "evaluation": {
+    "test_pairs_count": 106298,
+    "test_match_prevalence_pct": 0.5362,
+    "majority_baseline_acc": 0.994638,
+    "domain_rule_acc": 0.997112,
+    "domain_rule_recall": 0.47193,
+    "tree_test_pr_auc": 0.9794,
+    "tree_test_recall": 1.0,
+    "tree_test_precision": 0.964467,
+    "tree_expected_cost_1k": 0.99,
+    "nb_test_pr_auc": 0.9658,
+    "knn_test_pr_auc": 0.9816,
+    "mlp_test_pr_auc": 0.9841,
+    "end_to_end_tree_recall": 0.9448,
+    "operating_threshold": 0.2,
+    "strict_threshold": 0.8333
+  }
+}

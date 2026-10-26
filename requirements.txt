@@ -1,0 +1,13 @@
+# DSC306 Project 11: Patient Record Deduplication Tool
+# Pinned core and testing dependencies verified on Python 3.11+
+pandas==3.1.0
+numpy==2.5.4
+scikit-learn==1.9.1
+rapidfuzz==3.14.6
+streamlit==1.66.1
+plotly==7.1.0
+matplotlib==3.11.2
+joblib==1.6.0
+pyarrow==26.0.0
+scipy==1.18.1
+pytest==9.1.1

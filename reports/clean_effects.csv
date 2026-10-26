@@ -1,0 +1,16 @@
+repair_item,metric_description,before,after,change
+Distinct city values,Total unique city strings in column,69,15,-54
+Non-canonical city records,Records with city aliases or noisy abbreviations,2324,0,-2324
+Distinct gender values,Total unique gender strings in column,14,2,-12
+Dirty gender encodings,"Records with non-canonical gender tokens (male, 1, Ml, etc.)",1410,0,-1410
+Non-ISO birth date formats,DOB strings not formatted as standard YYYY-MM-DD,17932,0,-17932
+DOB sentinel values (1900-01-01),Default legacy sentinel birth dates,394,2,-394
+Chronologically invalid DOB (> reg_date),Birth date occurring after registration date,3446,0,-3446
+Phone sentinel values (00000000000),Dummy placeholder phone numbers,183,0,-183
+Non-standard phone format,Phone numbers not formatted as 11-digit 03xxxxxxxxx,1642,0,-1642
+"Age sentinel values (-999, -1, 999)",Sentinel values representing unrecorded age,300,0,-300
+Impossible age values (<0 or >110),Ages outside biological human lifespan,481,0,-481
+Age vs DOB inconsistency (> 2 years),Discrepancy between age_years and registration_date - DOB,2352,0,-2352
+Name whitespace & casing irregularities,"Untrimmed spaces, multiple spaces, or non-Titlecase in names",2202,0,-2202
+Extreme visit count outliers (9999),Visit counts far above plausible maximum (capped at 100),97,0,-97
+"Visit count sentinel values (-999, -1)",Negative placeholder encounter numbers,218,0,-218

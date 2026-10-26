@@ -1,0 +1,399 @@
+{
+  "dataset_name": "register_clean.csv",
+  "total_records": 54373,
+  "all_pairs_comparisons": 1478184378,
+  "pre_registered_target_completeness_pct": 92.0,
+  "schemes_evaluation": {
+    "B1 (Soundex+Yr)": {
+      "all_pairs_count": 1478184378,
+      "candidate_pairs_count": 583742,
+      "true_pairs_found": 5470,
+      "total_true_pairs": 9754,
+      "pairs_completeness": 0.560796,
+      "pairs_completeness_pct": 56.08,
+      "pairs_quality": 0.009371,
+      "pairs_quality_pct": 0.94,
+      "reduction_ratio": 0.9996051,
+      "reduction_ratio_pct": 99.96051,
+      "runtime_seconds": 0.406,
+      "key_desc": "Soundex(family_name) + birth_year",
+      "dropped_oversized_blocks": 0
+    },
+    "B2 (Fn3+YrMo)": {
+      "all_pairs_count": 1478184378,
+      "candidate_pairs_count": 25202,
+      "true_pairs_found": 3537,
+      "total_true_pairs": 9754,
+      "pairs_completeness": 0.36262,
+      "pairs_completeness_pct": 36.26,
+      "pairs_quality": 0.140346,
+      "pairs_quality_pct": 14.03,
+      "reduction_ratio": 0.99998295,
+      "reduction_ratio_pct": 99.998295,
+      "runtime_seconds": 0.229,
+      "key_desc": "first_name[:3] + DOB YYYY-MM",
+      "dropped_oversized_blocks": 0
+    },
+    "B3 (Phone7)": {
+      "all_pairs_count": 1478184378,
+      "candidate_pairs_count": 7608,
+      "true_pairs_found": 5906,
+      "total_true_pairs": 9754,
+      "pairs_completeness": 0.605495,
+      "pairs_completeness_pct": 60.55,
+      "pairs_quality": 0.776288,
+      "pairs_quality_pct": 77.63,
+      "reduction_ratio": 0.99999485,
+      "reduction_ratio_pct": 99.999485,
+      "runtime_seconds": 0.13,
+      "key_desc": "phone[-7:]",
+      "dropped_oversized_blocks": 0
+    },
+    "B4 (NID)": {
+      "all_pairs_count": 1478184378,
+      "candidate_pairs_count": 7194,
+      "true_pairs_found": 6087,
+      "total_true_pairs": 9754,
+      "pairs_completeness": 0.624052,
+      "pairs_completeness_pct": 62.41,
+      "pairs_quality": 0.846122,
+      "pairs_quality_pct": 84.61,
+      "reduction_ratio": 0.99999513,
+      "reduction_ratio_pct": 99.999513,
+      "runtime_seconds": 0.201,
+      "key_desc": "national_id (13 digits)",
+      "dropped_oversized_blocks": 0
+    },
+    "B5 (SNM w=5)": {
+      "all_pairs_count": 1478184378,
+      "candidate_pairs_count": 217482,
+      "true_pairs_found": 1900,
+      "total_true_pairs": 9754,
+      "pairs_completeness": 0.194792,
+      "pairs_completeness_pct": 19.48,
+      "pairs_quality": 0.008736,
+      "pairs_quality_pct": 0.87,
+      "reduction_ratio": 0.99985287,
+      "reduction_ratio_pct": 99.985287,
+      "runtime_seconds": 0.271,
+      "key_desc": "SNM window w=5 on surname+firstname"
+    },
+    "B1 + B3": {
+      "all_pairs_count": 1478184378,
+      "candidate_pairs_count": 587922,
+      "true_pairs_found": 8039,
+      "total_true_pairs": 9754,
+      "pairs_completeness": 0.824175,
+      "pairs_completeness_pct": 82.42,
+      "pairs_quality": 0.013674,
+      "pairs_quality_pct": 1.37,
+      "reduction_ratio": 0.99960227,
+      "reduction_ratio_pct": 99.960227,
+      "runtime_seconds": 0.536,
+      "key_desc": "B1 | B3"
+    },
+    "B1 + B3 + B4": {
+      "all_pairs_count": 1478184378,
+      "candidate_pairs_count": 589134,
+      "true_pairs_found": 9071,
+      "total_true_pairs": 9754,
+      "pairs_completeness": 0.929977,
+      "pairs_completeness_pct": 93.0,
+      "pairs_quality": 0.015397,
+      "pairs_quality_pct": 1.54,
+      "reduction_ratio": 0.99960145,
+      "reduction_ratio_pct": 99.960145,
+      "runtime_seconds": 0.738,
+      "key_desc": "B1 | B3 | B4"
+    },
+    "B1+B2+B3+B4": {
+      "all_pairs_count": 1478184378,
+      "candidate_pairs_count": 609935,
+      "true_pairs_found": 9146,
+      "total_true_pairs": 9754,
+      "pairs_completeness": 0.937667,
+      "pairs_completeness_pct": 93.77,
+      "pairs_quality": 0.014995,
+      "pairs_quality_pct": 1.5,
+      "reduction_ratio": 0.99958738,
+      "reduction_ratio_pct": 99.958738,
+      "runtime_seconds": 0.966,
+      "key_desc": "B1 | B2 | B3 | B4"
+    },
+    "UNION (B1-B5)": {
+      "all_pairs_count": 1478184378,
+      "candidate_pairs_count": 823534,
+      "true_pairs_found": 9216,
+      "total_true_pairs": 9754,
+      "pairs_completeness": 0.944843,
+      "pairs_completeness_pct": 94.48,
+      "pairs_quality": 0.011191,
+      "pairs_quality_pct": 1.12,
+      "reduction_ratio": 0.99944287,
+      "reduction_ratio_pct": 99.944287,
+      "runtime_seconds": 1.442,
+      "key_desc": "Union of B1, B2, B3, B4, B5"
+    }
+  },
+  "scaling_experiment": [
+    {
+      "all_pairs_count": 12497500,
+      "candidate_pairs_count": 24939,
+      "true_pairs_found": 79,
+      "total_true_pairs": 83,
+      "pairs_completeness": 0.951807,
+      "pairs_completeness_pct": 95.18,
+      "pairs_quality": 0.003168,
+      "pairs_quality_pct": 0.32,
+      "reduction_ratio": 0.99800448,
+      "reduction_ratio_pct": 99.800448,
+      "runtime_seconds": 0.077,
+      "dataset_size": 5000,
+      "all_pairs": 12497500
+    },
+    {
+      "all_pairs_count": 49995000,
+      "candidate_pairs_count": 60333,
+      "true_pairs_found": 334,
+      "total_true_pairs": 350,
+      "pairs_completeness": 0.954286,
+      "pairs_completeness_pct": 95.43,
+      "pairs_quality": 0.005536,
+      "pairs_quality_pct": 0.55,
+      "reduction_ratio": 0.99879322,
+      "reduction_ratio_pct": 99.879322,
+      "runtime_seconds": 0.446,
+      "dataset_size": 10000,
+      "all_pairs": 49995000
+    },
+    {
+      "all_pairs_count": 312487500,
+      "candidate_pairs_count": 226517,
+      "true_pairs_found": 2015,
+      "total_true_pairs": 2115,
+      "pairs_completeness": 0.952719,
+      "pairs_completeness_pct": 95.27,
+      "pairs_quality": 0.008896,
+      "pairs_quality_pct": 0.89,
+      "reduction_ratio": 0.99927512,
+      "reduction_ratio_pct": 99.927512,
+      "runtime_seconds": 0.767,
+      "dataset_size": 25000,
+      "all_pairs": 312487500
+    },
+    {
+      "all_pairs_count": 1478184378,
+      "candidate_pairs_count": 823534,
+      "true_pairs_found": 9216,
+      "total_true_pairs": 9754,
+      "pairs_completeness": 0.944843,
+      "pairs_completeness_pct": 94.48,
+      "pairs_quality": 0.011191,
+      "pairs_quality_pct": 1.12,
+      "reduction_ratio": 0.99944287,
+      "reduction_ratio_pct": 99.944287,
+      "runtime_seconds": 1.985,
+      "dataset_size": 54373,
+      "all_pairs": 1478184378
+    }
+  ],
+  "block_size_distribution": {
+    "total_blocks": 4942,
+    "singletons": 1265,
+    "blocks_ge_2": 3677,
+    "median_size": 6,
+    "p95_size": 39,
+    "p99_size": 55,
+    "max_size": 79,
+    "dropped_oversized_blocks": 0,
+    "dropped_pairs_estimate": 0,
+    "largest_blocks": [
+      [
+        "K500_2003",
+        79
+      ],
+      [
+        "K500_1937",
+        77
+      ],
+      [
+        "K500_1948",
+        74
+      ],
+      [
+        "K500_1939",
+        73
+      ],
+      [
+        "H250_1936",
+        70
+      ]
+    ]
+  },
+  "missed_duplicates_analysis": {
+    "total_missed_pairs": 538,
+    "total_true_pairs": 9754,
+    "missed_rate_pct": 5.52,
+    "causes_breakdown": {
+      "phone_omitted_or_corrupted": 538,
+      "nid_omitted_or_corrupted": 538,
+      "dob_discrepancy_or_swapped": 390,
+      "name_transposed_or_typo": 286,
+      "multi_field_severe_corruption": 538
+    },
+    "sample_missed_cases": [
+      {
+        "record_pair": [
+          "REC0009474",
+          "REC0018262"
+        ],
+        "names": "Butt Ksobia vs Sobia Butt",
+        "dates_of_birth": "1941-01-10 vs 1941-10-01",
+        "phones": "03445492524 vs ",
+        "national_ids": "1314556831209 vs ",
+        "reasons": [
+          "Phone mismatch/missing",
+          "NID mismatch/missing",
+          "DOB mismatch/missing",
+          "Surname Soundex mismatch"
+        ]
+      },
+      {
+        "record_pair": [
+          "REC0001848",
+          "REC0048468"
+        ],
+        "names": "Raza Hashmi vs Raza Hgshmi",
+        "dates_of_birth": "1975-12-18 vs 1957-12-18",
+        "phones": "03409551571 vs ",
+        "national_ids": " vs ",
+        "reasons": [
+          "Phone mismatch/missing",
+          "NID mismatch/missing",
+          "DOB mismatch/missing"
+        ]
+      },
+      {
+        "record_pair": [
+          "REC0008912",
+          "REC0029672"
+        ],
+        "names": "Nawaz Agha Nadi vs Nadia Nawaz",
+        "dates_of_birth": "1999-05-02 vs 1999-02-05",
+        "phones": " vs 03221334943",
+        "national_ids": "3399748967165 vs 3399742967165",
+        "reasons": [
+          "Phone mismatch/missing",
+          "NID mismatch/missing",
+          "DOB mismatch/missing",
+          "Surname Soundex mismatch"
+        ]
+      },
+      {
+        "record_pair": [
+          "REC0031973",
+          "REC0037548"
+        ],
+        "names": "Osana Ahmxd vs Sana Ahmed",
+        "dates_of_birth": "1981-10-19 vs 1981-10-19",
+        "phones": "03036857954 vs 03036857934",
+        "national_ids": "3982686649949 vs 3932686649949",
+        "reasons": [
+          "Phone mismatch/missing",
+          "NID mismatch/missing",
+          "Surname Soundex mismatch"
+        ]
+      },
+      {
+        "record_pair": [
+          "REC0019100",
+          "REC0042535"
+        ],
+        "names": "Mumhammed Khawaa vs Muhammad Khawaja",
+        "dates_of_birth": "1939-03-06 vs 1939-03-06",
+        "phones": " vs 03189632761",
+        "national_ids": "5110883998014 vs 5110883948014",
+        "reasons": [
+          "Phone mismatch/missing",
+          "NID mismatch/missing",
+          "Surname Soundex mismatch"
+        ]
+      },
+      {
+        "record_pair": [
+          "REC0026899",
+          "REC0054063"
+        ],
+        "names": "Asad Bokhair vs Asad Bokhari",
+        "dates_of_birth": "1969-08-15 vs 1996-08-15",
+        "phones": " vs 03126277236",
+        "national_ids": " vs 3193528629675",
+        "reasons": [
+          "Phone mismatch/missing",
+          "NID mismatch/missing",
+          "DOB mismatch/missing"
+        ]
+      },
+      {
+        "record_pair": [
+          "REC0048403",
+          "REC0051083"
+        ],
+        "names": "Ahmde Abbasi vs Avhmed Abbasi",
+        "dates_of_birth": "1942-12-06 vs ",
+        "phones": " vs ",
+        "national_ids": "4498758327241 vs ",
+        "reasons": [
+          "Phone mismatch/missing",
+          "NID mismatch/missing",
+          "DOB mismatch/missing"
+        ]
+      },
+      {
+        "record_pair": [
+          "REC0036401",
+          "REC0044602"
+        ],
+        "names": "Shahid Mughal vs Shahida Mughal",
+        "dates_of_birth": " vs 1941-09-09",
+        "phones": " vs 03493143148",
+        "national_ids": " vs 2621828767142",
+        "reasons": [
+          "Phone mismatch/missing",
+          "NID mismatch/missing",
+          "DOB mismatch/missing"
+        ]
+      },
+      {
+        "record_pair": [
+          "REC0029742",
+          "REC0033175"
+        ],
+        "names": "F. Ahmed vs Fatima Ahmed",
+        "dates_of_birth": " vs 1942-06-25",
+        "phones": " vs ",
+        "national_ids": "6693740615843 vs ",
+        "reasons": [
+          "Phone mismatch/missing",
+          "NID mismatch/missing",
+          "DOB mismatch/missing"
+        ]
+      },
+      {
+        "record_pair": [
+          "REC0034165",
+          "REC0039188"
+        ],
+        "names": "Shoaib Zaman vs Shoaib Zaman",
+        "dates_of_birth": "2021-01-28 vs ",
+        "phones": "03242058339 vs ",
+        "national_ids": " vs 6442217232836",
+        "reasons": [
+          "Phone mismatch/missing",
+          "NID mismatch/missing",
+          "DOB mismatch/missing"
+        ]
+      }
+    ]
+  }
+}

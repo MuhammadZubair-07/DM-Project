@@ -1,0 +1,107 @@
+[
+  {
+    "repair_item": "Distinct city values",
+    "metric_description": "Total unique city strings in column",
+    "before": 69,
+    "after": 15,
+    "change": -54
+  },
+  {
+    "repair_item": "Non-canonical city records",
+    "metric_description": "Records with city aliases or noisy abbreviations",
+    "before": 2324,
+    "after": 0,
+    "change": -2324
+  },
+  {
+    "repair_item": "Distinct gender values",
+    "metric_description": "Total unique gender strings in column",
+    "before": 14,
+    "after": 2,
+    "change": -12
+  },
+  {
+    "repair_item": "Dirty gender encodings",
+    "metric_description": "Records with non-canonical gender tokens (male, 1, Ml, etc.)",
+    "before": 1410,
+    "after": 0,
+    "change": -1410
+  },
+  {
+    "repair_item": "Non-ISO birth date formats",
+    "metric_description": "DOB strings not formatted as standard YYYY-MM-DD",
+    "before": 17932,
+    "after": 0,
+    "change": -17932
+  },
+  {
+    "repair_item": "DOB sentinel values (1900-01-01)",
+    "metric_description": "Default legacy sentinel birth dates",
+    "before": 394,
+    "after": 2,
+    "change": -394
+  },
+  {
+    "repair_item": "Chronologically invalid DOB (> reg_date)",
+    "metric_description": "Birth date occurring after registration date",
+    "before": 3446,
+    "after": 0,
+    "change": -3446
+  },
+  {
+    "repair_item": "Phone sentinel values (00000000000)",
+    "metric_description": "Dummy placeholder phone numbers",
+    "before": 183,
+    "after": 0,
+    "change": -183
+  },
+  {
+    "repair_item": "Non-standard phone format",
+    "metric_description": "Phone numbers not formatted as 11-digit 03xxxxxxxxx",
+    "before": 1642,
+    "after": 0,
+    "change": -1642
+  },
+  {
+    "repair_item": "Age sentinel values (-999, -1, 999)",
+    "metric_description": "Sentinel values representing unrecorded age",
+    "before": 300,
+    "after": 0,
+    "change": -300
+  },
+  {
+    "repair_item": "Impossible age values (<0 or >110)",
+    "metric_description": "Ages outside biological human lifespan",
+    "before": 481,
+    "after": 0,
+    "change": -481
+  },
+  {
+    "repair_item": "Age vs DOB inconsistency (> 2 years)",
+    "metric_description": "Discrepancy between age_years and registration_date - DOB",
+    "before": 2352,
+    "after": 0,
+    "change": -2352
+  },
+  {
+    "repair_item": "Name whitespace & casing irregularities",
+    "metric_description": "Untrimmed spaces, multiple spaces, or non-Titlecase in names",
+    "before": 2202,
+    "after": 0,
+    "change": -2202
+  },
+  {
+    "repair_item": "Extreme visit count outliers (9999)",
+    "metric_description": "Visit counts far above plausible maximum (capped at 100)",
+    "before": 97,
+    "after": 0,
+    "change": -97
+  },
+  {
+    "repair_item": "Visit count sentinel values (-999, -1)",
+    "metric_description": "Negative placeholder encounter numbers",
+    "before": 218,
+    "after": 0,
+    "change": -218
+  }
+]

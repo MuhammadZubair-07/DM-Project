@@ -1,0 +1,52 @@
+{
+  "chosen_params": {
+    "hidden_layer_sizes": [
+      16,
+      8
+    ],
+    "alpha": 0.01
+  },
+  "cv_metrics": {
+    "params": {
+      "hidden_layer_sizes": [
+        16,
+        8
+      ],
+      "alpha": 0.01
+    },
+    "pr_auc_mean": 0.998005,
+    "pr_auc_std": 0.001332,
+    "pr_auc_se": 0.000596,
+    "roc_auc_mean": 0.999693,
+    "roc_auc_std": 0.000145,
+    "brier_score_mean": 0.00192,
+    "brier_score_std": 0.000299,
+    "f1_mean": 0.99301,
+    "f1_std": 0.00146,
+    "expected_cost_1k_mean": 11.73,
+    "expected_cost_1k_std": 2.47,
+    "fit_time_sec": 19.156,
+    "simplicity_score": 20.0
+  },
+  "features_used": [
+    "father_exact",
+    "dob_exact",
+    "dob_day_equal",
+    "dob_month_equal",
+    "dob_one_digit_edit",
+    "dob_diff_days_log",
+    "nid_hamming_le_1",
+    "nid_levenshtein",
+    "phone_last7_equal",
+    "phone_edit_distance",
+    "city_equal",
+    "address_token_jaccard",
+    "blood_group_equal",
+    "visit_count_diff_log",
+    "gower_similarity"
+  ],
+  "preprocessing": "MeanImputer + StandardScaler()",
+  "training_date": "2026-10-27T01:55:18.489265",
+  "random_seed": 42,
+  "data_hash": "661c9cefde87a4a469a05a9d62728c1b102069b31cd3092cc5b24d8ff841269d"
+}
